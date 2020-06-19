@@ -1,0 +1,20 @@
+main {
+  display: block;
+  left: 0;
+  right: 0;
+  height: calc(100vh - 56px);
+}
+
+.main-area-content {
+  display: block;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #A8C6FA;
+  margin:0;
+  display: flex;
+  align-items: flex-start;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}

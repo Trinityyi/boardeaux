@@ -1,0 +1,17 @@
+input {
+  transition: 0.3s ease all;
+  background: #EDEFF3;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  box-sizing: border-box;
+  padding: 4px 8px;
+  font-size: 1em;
+  font-weight: 400;
+  height: 44px;
+  color: #3A4650;
+
+  &::placeholder {
+    color: #516371;
+  }
+}

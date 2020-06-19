@@ -1,0 +1,42 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: #171C20;
+  color: #F6F7F9;
+
+  .logo {
+    margin: 8px 16px;
+  }
+
+  .btn-menu {
+    font-size: 24px;
+    color: #F6F7F9;
+    width: 44px;
+    height: 44px;
+    border-radius: 24px;
+    margin: 8px 8px 8px 16px;
+  }
+  .controls {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+
+    input[type="search"] {
+      padding-left: 48px;
+    }
+
+    .icon-search {
+      height: 24px;
+      line-height: 0;
+      position: absolute;
+      left: 12px;
+      top: 16px;
+      color: #3A4650;
+      font-size: 24px;
+    }
+  }
+}
