@@ -1,0 +1,40 @@
+.column {
+  margin: 16px;
+  flex: 0 0 320px;
+  max-height: calc(100% - 32px);
+  background: rgba(255, 255, 255, 0.68);
+  border-radius: 8px;
+  scroll-snap-align: start;
+  scroll-margin: 0 16px;
+  display: flex;
+  flex-direction: column;
+
+  .column-title {
+    padding: 14px 12px;
+    display: flex;
+    justify-content: space-between;
+
+    h3 {
+      padding: 0;
+      margin: 0;
+      top: 0;
+      font-size: 1.5rem;
+    }
+  }
+
+  .column-content {
+    max-height: calc(100% - 56px - 6px);
+    padding: 0 12px 6px;
+    margin: 0;
+    list-style: none;
+    overflow-y: auto;
+
+    > li {
+      padding: 8px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      background: #FDFDFD;
+      line-height: 1.5;
+    }
+  }
+}
