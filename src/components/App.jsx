@@ -1,19 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import MainArea from './MainArea';
 import Header from './Header';
+import store from '../store';
 
 const App = () => {
   return (
-    <>
+    <Provider store={createStore(store)}>
       <Header />
       <MainArea />
-    </>
+    </Provider>
   );
-};
-
-App.propTypes = {
-
 };
 
 export default App;
