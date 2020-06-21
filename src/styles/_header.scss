@@ -20,6 +20,31 @@ header {
     border-radius: 24px;
     margin: 8px 8px 8px 16px;
   }
+
+  .board-name {
+    display: inline-flex;
+    align-items: center;
+
+    span {
+      font-weight: 300;
+      line-height: 1;
+      font-size: 2rem;
+    }
+
+    input {
+      background: rgba(255, 255, 255, 0.15);
+      color: #F6F7F9;
+      font-size: 2rem;
+      max-width: 30vw;
+    }
+
+    .icon {
+      line-height: 0;
+      font-size: 36px;
+      margin: 0 8px;
+    }
+  }
+
   .controls {
     position: relative;
     display: inline-flex;
