@@ -7,10 +7,8 @@ const initialState = {
     title: 'Board',
     columnIds: []
   },
-  columns: {
-  },
-  cards: {
-  }
+  columns: {},
+  cards: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -23,7 +21,6 @@ const reducer = (state = initialState, action) => {
         title: action.title
       }
     };
-
   case CREATE_CARD:
     return {
       ...state,
@@ -40,7 +37,20 @@ const reducer = (state = initialState, action) => {
         [action.id]: action.data
       }
     };
-
+  case ADD_CARD_TO_COLUMN:
+    return {
+      ...state,
+      columns: {
+        ...state.columns,
+        [action.columnId]: {
+          ...state.columns[action.columnId],
+          cardIds: [
+            ...state.columns[action.columnId].cardIds,
+            action.cardId
+          ]
+        }
+      }
+    };
   default:
     return state;
   }
@@ -55,14 +65,15 @@ export const setBoardTitle = title => {
 };
 
 export const CREATE_CARD = 'CREATE_CARD';
-export const createCard = data => {
+export const createCard = (data, columnId) => dispatch => {
   const id = uuid();
   data.id = id;
-  return {
+  dispatch(addCardToColumn(id, columnId));
+  dispatch({
     type: CREATE_CARD,
     data,
     id
-  };
+  });
 };
 
 export const CREATE_COLUMN = 'CREATE_COLUMN';
@@ -74,6 +85,15 @@ export const createColumn = data => {
     type: CREATE_COLUMN,
     data,
     id
+  };
+};
+
+export const ADD_CARD_TO_COLUMN = 'ADD_CARD_TO_COLUMN';
+export const addCardToColumn = (cardId, columnId) => {
+  return {
+    type: ADD_CARD_TO_COLUMN,
+    cardId,
+    columnId
   };
 };
 
