@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Card from './Card';
 
 /**
  * Renders a column on the board, containing the provided cards.
@@ -16,7 +17,7 @@ const Column = ({
       </div>
       <ul className="column-content">
         {cards.map(card => (
-          <li key={card.id}>{card.title}</li>
+          <Card key={card.id} card={card}/>
         ))}
       </ul>
     </div>
@@ -25,8 +26,7 @@ const Column = ({
 
 Column.propTypes = {
   cards: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired
   })).isRequired,
   title: PropTypes.string.isRequired
 };
