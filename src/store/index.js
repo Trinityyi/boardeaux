@@ -1,13 +1,25 @@
 const initialState = {
-  name: 'Board'
+  name: 'Board',
+  board: {
+    id: 0,
+    title: 'Board',
+    columnIds: []
+  },
+  columns: {
+  },
+  cards: {
+  }
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-  case SET_BOARD_NAME:
+  case SET_BOARD_TITLE:
     return {
       ...state,
-      name: action.name
+      board: {
+        ...state.board,
+        title: action.title
+      }
     };
 
   default:
@@ -15,11 +27,11 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export const SET_BOARD_NAME = 'SET_BOARD_NAME';
-export const setBoardName = name => {
+export const SET_BOARD_TITLE = 'SET_BOARD_TITLE';
+export const setBoardTitle = title => {
   return {
-    type: SET_BOARD_NAME,
-    name
+    type: SET_BOARD_TITLE,
+    title
   };
 };
 

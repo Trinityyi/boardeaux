@@ -3,12 +3,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import EditableText from './EditableText';
-import {setBoardName} from '../store';
+import {setBoardTitle} from '../store';
 import logo from '../assets/logo.png';
 
 const Header = ({
-  name,
-  setBoardName
+  title,
+  setBoardTitle
 }) => {
   return (
     <header>
@@ -18,8 +18,8 @@ const Header = ({
         <EditableText
           id="board-name"
           name="board-name"
-          value={name}
-          onChange={setBoardName}
+          value={title}
+          onChange={setBoardTitle}
         />
       </h2>
       <div className="controls">
@@ -35,16 +35,16 @@ const Header = ({
 };
 
 Header.propTypes = {
-  name: PropTypes.string.isRequired,
-  setBoardName: PropTypes.func.isRequired
+  title: PropTypes.string.isRequired,
+  setBoardTitle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
-  return {name: state.name};
+  return {title: state.board.title};
 };
 
 const mapDispatchToProps = dispatch => {
-  return { setBoardName: bindActionCreators(setBoardName, dispatch)};
+  return { setBoardTitle: bindActionCreators(setBoardTitle, dispatch)};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
