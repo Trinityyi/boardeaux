@@ -1,3 +1,5 @@
+import { v4 as uuid } from 'uuid';
+
 const initialState = {
   name: 'Board',
   board: {
@@ -22,6 +24,23 @@ const reducer = (state = initialState, action) => {
       }
     };
 
+  case CREATE_CARD:
+    return {
+      ...state,
+      cards: {
+        ...state.cards,
+        [action.id]: action.data
+      }
+    };
+  case CREATE_COLUMN:
+    return {
+      ...state,
+      columns: {
+        ...state.columns,
+        [action.id]: action.data
+      }
+    };
+
   default:
     return state;
   }
@@ -35,5 +54,27 @@ export const setBoardTitle = title => {
   };
 };
 
+export const CREATE_CARD = 'CREATE_CARD';
+export const createCard = data => {
+  const id = uuid();
+  data.id = id;
+  return {
+    type: CREATE_CARD,
+    data,
+    id
+  };
+};
+
+export const CREATE_COLUMN = 'CREATE_COLUMN';
+export const createColumn = data => {
+  const id = uuid();
+  data.id = id;
+  data.cardIds = [];
+  return {
+    type: CREATE_COLUMN,
+    data,
+    id
+  };
+};
 
 export default reducer;
