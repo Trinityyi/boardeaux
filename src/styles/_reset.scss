@@ -1,0 +1,165 @@
+// Set up some basic styling for everything
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+html, * {
+  font-family: 'Roboto', Helvetica, sans-serif;
+  line-height: 1.5;
+  // Prevent adjustments of font size after orientation changes in mobile
+  -webkit-text-size-adjust: 100%;
+}
+
+* {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  color: #141414;
+  overflow-x: hidden;
+}
+
+// Style textual elements
+p {
+  margin: 8px;
+}
+
+ol, ul {
+  margin: 8px;
+  padding-left: 20px;
+}
+
+// Style headings according to material design guidelines
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+  margin: 12px 8px;
+}
+
+h1 {
+  font-size: 6rem;
+}
+
+h2 {
+  font-size: 3.75rem;
+}
+
+h3 {
+  font-size: 3rem;
+}
+
+h4 {
+  font-size: 2.125rem;
+}
+
+h5 {
+  font-size: 1.5rem;
+}
+
+h6 {
+  font-size: 1.25rem;
+}
+
+// Apply fixes and defaults as necessary for modern browsers only
+a, b, em, i, q, span, strong, u, pre, code, kbd, samp {
+  font-size: 1em; // Fix for elements inside headings not displaying properly
+}
+
+b, strong {
+  font-weight: 500;
+}
+
+// Correct the font in all browsers
+pre, code, kbd, samp {
+  font-family: monospace, monospace;
+}
+
+// Apply a default relative font size
+small, sub, sup {
+  font-size: 0.75em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+// Prevent from affecting line height
+sup, sub, code, kbd {
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+// Add the correct box sizing in Firefox
+hr {
+  box-sizing: content-box;
+  height: 0;
+}
+
+// Make images responsive by default
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// Apply sensible default font styles for all browsers
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.2;
+  text-transform: none;
+  margin: 0;
+}
+
+// Show overflow in Edge
+input {
+  overflow: visible;
+}
+
+// Correct the inability to style clickable types in iOS and Safari
+button, [type="button"], [type="reset"], [type="submit"] {
+  -webkit-appearance: button;
+}
+
+// Remove the inner border and padding in Firefox
+button::-moz-focus-inner, [type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner, [type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+// Restore the focus styles unset by the previous rule
+button:-moz-focusring, [type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring, [type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+// Correct the cursor style of increment and decrement buttons in Chrome
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+
+// Correct style in Chrome and Safari
+[type="search"] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+
+// Correct style in Chrome and Safari.
+[type="search"]::-webkit-search-cancel-button, [type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+// Correct style in Chrome and Safari
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
