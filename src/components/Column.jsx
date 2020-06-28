@@ -6,6 +6,7 @@ import Card from './Card';
  * Renders a column on the board, containing the provided cards.
  */
 const Column = ({
+  id,
   cards,
   title
 }) => {
@@ -25,6 +26,7 @@ const Column = ({
 };
 
 Column.propTypes = {
+  id: PropTypes.string.isRequired,
   cards: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired
   })).isRequired,
