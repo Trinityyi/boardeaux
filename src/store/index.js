@@ -68,12 +68,12 @@ export const CREATE_CARD = 'CREATE_CARD';
 export const createCard = (data, columnId) => dispatch => {
   const id = uuid();
   data.id = id;
-  dispatch(addCardToColumn(id, columnId));
   dispatch({
     type: CREATE_CARD,
     data,
     id
   });
+  dispatch(addCardToColumn(id, columnId));
 };
 
 export const CREATE_COLUMN = 'CREATE_COLUMN';
