@@ -10,10 +10,42 @@
   font-size: 1.125rem;
   line-height: 1.5rem;
   transition: 0.3s ease all;
+  font-size: 1rem;
 
   &:hover, &:focus {
     backdrop-filter: invert(8%);
     text-decoration: none;
     outline: none;
+  }
+
+  &.btn-confirm {
+    background: hsl(123, 46%, 36%);
+    color: #ffffff;
+
+    &:hover, &:focus {
+      background: hsl(123, 46%, 41%);
+    }
+  }
+}
+
+.btn-add-submit, .btn-add-cancel {
+  border-radius: 4px;
+  padding: 4px 12px;
+  margin-top: 6px;
+  height: 32px;
+}
+
+.btn-add-cancel {
+  color: #525252;
+
+  &:before {
+    font-size: 24px;
+    line-height: 16px;
+    vertical-align: middle;
+  }
+
+  &:hover, &:focus {
+    backdrop-filter: none;
+    color: #141414;
   }
 }

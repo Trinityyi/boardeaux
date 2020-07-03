@@ -15,24 +15,52 @@ const AddButton = ({
 }) => {
   const [isEditable, setIsEditable] = useState(false);
   const clickRef = useRef();
-  useClickOutside(clickRef, () => {
-    if (isEditable) {
-      onSubmit(clickRef.current.querySelector(`#${id}`).value);
-      setIsEditable(false);
+
+  const handleInputSubmit = (doReset = true) => {
+    const inputElement = clickRef.current.querySelector(`#${id}`);
+    const inputValue = inputElement.value.trim();
+
+    if (inputValue.length) onSubmit(inputValue);
+
+    if (doReset) setIsEditable(false);
+    else if (!inputValue.length) inputElement.select();
+    else {
+      inputElement.value = '';
+      inputElement.focus();
     }
-  });
+  };
+
+  useClickOutside(clickRef, () => {
+    if (isEditable) handleInputSubmit();
+  }, '[class*="btn-add"]');
 
   return (
     <div className={combineClassNames`add-button-wrapper ${wrapperClassName}`} ref={clickRef}>
       {isEditable ? (
-        <input
-          className={inputClassName ? inputClassName : null}
-          type="text"
-          name={name}
-          id={id}
-          defaultValue={defaultValue}
-        />
-      ) : (
+        <>
+          <input
+            className={inputClassName ? inputClassName : null}
+            type="text"
+            name={name}
+            id={id}
+            defaultValue={defaultValue}
+            autoFocus
+            onKeyPress={e => {
+              if (e.charCode === 13) handleInputSubmit(false);
+            }}
+          />
+          <button
+            className="btn btn-confirm btn-add-submit"
+            onClick={() => handleInputSubmit(false)}
+          >
+            Add Card
+          </button>
+          <button
+            className="btn btn-add-cancel icon icon-x"
+            onClick={() => setIsEditable(false)}
+          />
+        </>
+      ) : ( // sad face, so sad!
         <button
           className={combineClassNames`btn btn-add icon icon-plus ${buttonClassName}`}
           onClick={() => setIsEditable(true)}
