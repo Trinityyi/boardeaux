@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Renders a column on the board, containing the provided cards.
+ */
 const Column = ({
   cards,
   title
