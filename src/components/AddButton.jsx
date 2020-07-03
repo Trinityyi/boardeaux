@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import useClickOutside from '../hooks/useClickOutside';
 import combineClassNames from '@chalarangelo/combine-class-names';
 
+/**
+ * Renders a stateful component that toggles between an uncontrolled input field
+ * with controls and button on click. Clicking the submit button or clicking
+ * outside the field runs the passed onSubmit handler.
+ */
 const AddButton = ({
   id,
   name,
