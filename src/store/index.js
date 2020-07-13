@@ -68,6 +68,17 @@ const reducer = (state = initialState, action) => {
         }
       }
     };
+  case SET_CARD_DESCRIPTION:
+    return {
+      ...state,
+      cards: {
+        ...state.cards,
+        [action.id]: {
+          ...state.cards[action.id],
+          description: action.description
+        }
+      }
+    };
   default:
     return state;
   }
@@ -83,11 +94,15 @@ export const setBoardTitle = title => {
 
 export const CREATE_CARD = 'CREATE_CARD';
 export const createCard = (data, columnId) => dispatch => {
+  const { title, description } = data;
   const id = uuid();
-  data.id = id;
   dispatch({
     type: CREATE_CARD,
-    data,
+    data: {
+      id,
+      title,
+      description: description ? description : ''
+    },
     id
   });
   dispatch(addCardToColumn(id, columnId));
@@ -127,6 +142,15 @@ export const setCardTitle = (id, title) => {
   return {
     type: SET_CARD_TITLE,
     title,
+    id
+  };
+};
+
+export const SET_CARD_DESCRIPTION = 'SET_CARD_DESCRIPTION';
+export const setCardDescription = (id, description) => {
+  return {
+    type: SET_CARD_DESCRIPTION,
+    description,
     id
   };
 };

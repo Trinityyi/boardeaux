@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
 import EditableText from './EditableText';
-import {setCardModalId, setCardTitle} from '../store';
+import {setCardModalId, setCardTitle, setCardDescription} from '../store';
 
 const CardModalDialog = ({
   id,
   card,
   setCardModalId,
-  setCardTitle
+  setCardTitle,
+  setCardDescription
 }) => {
   if (!id) return null;
   return (
@@ -29,6 +30,18 @@ const CardModalDialog = ({
           }}
         />
       </h2>
+      <p>
+        <EditableText
+          id="card-modal-description"
+          name="card-modal-description"
+          value={card.description}
+          onChange={value => {
+            setCardDescription(id, value);
+          }}
+          isDefaultEditable={!card.description.length}
+          isMultiline
+        />
+      </p>
 
     </Modal>
   );
@@ -40,7 +53,9 @@ CardModalDialog.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   }),
-  setCardModalId: PropTypes.func.isRequired
+  setCardModalId: PropTypes.func.isRequired,
+  setCardTitle: PropTypes.func.isRequired,
+  setCardDescription: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -53,7 +68,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setCardModalId: bindActionCreators(setCardModalId, dispatch),
-    setCardTitle: bindActionCreators(setCardTitle, dispatch)
+    setCardTitle: bindActionCreators(setCardTitle, dispatch),
+    setCardDescription: bindActionCreators(setCardDescription, dispatch)
   };
 };
 

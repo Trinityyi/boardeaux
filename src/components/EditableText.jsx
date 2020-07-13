@@ -12,19 +12,22 @@ const EditableText = ({
   id,
   name,
   value,
-  onChange
+  onChange,
+  isDefaultEditable = false,
+  isMultiline = false
 }) => {
-  const [isEditable, setIsEditable] = useState(false);
+  const [isEditable, setIsEditable] = useState(isDefaultEditable);
   const clickRef = useRef();
   useClickOutside(clickRef, () => {
     if (isEditable) setIsEditable(false);
   });
 
+  const EditableField = isMultiline ? 'textarea' : 'input';
   return (
     <div className="editable-text-wrapper" ref={clickRef}>
       {
         isEditable ? (
-          <input
+          <EditableField
             type="text"
             name={name}
             id={id}
