@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 
 // Reference: https://www.30secondsofcode.org/react/s/use-click-outside
-const useClickOutside = (ref, callback) => {
+const useClickOutside = (ref, callback, ignoreSelector) => {
   const handleClick = e => {
-    if (ref.current && !ref.current.contains(e.target))
-      callback();
+    if (ref.current && !ref.current.contains(e.target)) {
+      if (!ignoreSelector || !e.target.matches(ignoreSelector))
+        callback();
+    }
 
   };
   useEffect(() => {

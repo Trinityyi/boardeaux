@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import renderConnected from '../utils/renderConnected';
 import Column from '../../components/Column';
 import { cards } from '../fixtures/cards';
 
@@ -7,7 +7,7 @@ describe('<Column/>', () => {
   let wrapper, getByText;
 
   beforeEach(() => {
-    const utils = render(
+    const utils = renderConnected(
       <Column
         cards={cards}
         title='Cool things'

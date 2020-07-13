@@ -27,11 +27,12 @@ const MainArea = ({
   return (
     <main>
       <div className="main-area-content">
-        {Object.values(columns).map(col => (
+        {Object.values(columns).map(({id, title, cardIds}) => (
           <Column
-            key={col.id}
-            title={col.title}
-            cards={col.cardIds.map(cId => cards[cId])}
+            id={id}
+            key={id}
+            title={title}
+            cards={cardIds.map(cId => cards[cId])}
           />
         ))}
       </div>

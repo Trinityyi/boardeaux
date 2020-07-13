@@ -37,4 +37,33 @@
       line-height: 1.5;
     }
   }
+
+  .column-action-add {
+    margin: -6px 12px 6px;
+  }
+
+  .btn-column-add {
+    position: relative;
+    border-radius: 4px;
+    padding: 8px 8px 8px 32px;
+    width: 100%;
+    font-size: 1rem;
+    text-align: left;
+
+    &:before {
+      position: absolute;
+      left: 6px;
+      top: 10px;
+      font-size: 20px;
+    }
+  }
+
+  .input-column-add {
+    padding: 0 8px;
+    margin: 0;
+    background: hsl(220, 12%, 99%);
+    width: 100%;
+    line-height: 1;
+    height: 40px;
+  }
 }
