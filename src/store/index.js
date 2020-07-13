@@ -8,7 +8,8 @@ const initialState = {
     columnIds: []
   },
   columns: {},
-  cards: {}
+  cards: {},
+  cardModalId: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -50,6 +51,11 @@ const reducer = (state = initialState, action) => {
           ]
         }
       }
+    };
+  case SET_CARD_MODAL_ID:
+    return {
+      ...state,
+      cardModalId: action.cardId
     };
   default:
     return state;
@@ -94,6 +100,14 @@ export const addCardToColumn = (cardId, columnId) => {
     type: ADD_CARD_TO_COLUMN,
     cardId,
     columnId
+  };
+};
+
+export const SET_CARD_MODAL_ID = 'SET_CARD_MODAL_ID';
+export const setCardModalId = cardId => {
+  return {
+    type: SET_CARD_MODAL_ID,
+    cardId
   };
 };
 
