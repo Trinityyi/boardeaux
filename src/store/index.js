@@ -57,6 +57,17 @@ const reducer = (state = initialState, action) => {
       ...state,
       cardModalId: action.cardId
     };
+  case SET_CARD_TITLE:
+    return {
+      ...state,
+      cards: {
+        ...state.cards,
+        [action.id]: {
+          ...state.cards[action.id],
+          title: action.title
+        }
+      }
+    };
   default:
     return state;
   }
@@ -108,6 +119,15 @@ export const setCardModalId = cardId => {
   return {
     type: SET_CARD_MODAL_ID,
     cardId
+  };
+};
+
+export const SET_CARD_TITLE = 'SET_CARD_TITLE';
+export const setCardTitle = (id, title) => {
+  return {
+    type: SET_CARD_TITLE,
+    title,
+    id
   };
 };
 

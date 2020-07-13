@@ -1,8 +1,7 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import combineClassNames from '@chalarangelo/combine-class-names';
-import useClickOutside from '../hooks/useClickOutside';
 
 const Modal = ({
   children,
@@ -11,17 +10,14 @@ const Modal = ({
   className = '',
   container
 }) => {
-  const clickRef = useRef();
-  useClickOutside(clickRef, () => {
-    onClose();
-  });
 
   return ReactDOM.createPortal(
-    <div className="modal-wrapper">
+    <div className="modal-wrapper" onClick={e => {
+      if (e.target === e.currentTarget) onClose();
+    }}>
       <div
         className={combineClassNames`modal-content ${className}`}
         id={id}
-        ref={clickRef}
       >
         {children}
       </div>
@@ -35,7 +31,7 @@ Modal.propTypes = {
   id: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   className: PropTypes.string,
-  container: PropTypes.node.isRequired
+  container: PropTypes.instanceOf(Element).isRequired
 };
 
 export default Modal;
