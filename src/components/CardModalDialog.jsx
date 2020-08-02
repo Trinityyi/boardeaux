@@ -38,6 +38,7 @@ const CardModalDialog = ({
           onChange={value => setCardDescription(id, value)}
           isDefaultEditable={!card.description.length}
           isMultiline
+          isMarkdown
         />
       </p>
     </Modal>
