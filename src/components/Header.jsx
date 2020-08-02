@@ -3,12 +3,15 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import EditableText from './EditableText';
-import { setBoardTitle } from '../store';
+import actions from '../store/actions';
 import logo from '../assets/logo.png';
+
+const { setBoardTitle, setMainMenuOpen } = actions;
 
 const Header = ({
   title,
-  setBoardTitle
+  setBoardTitle,
+  setMainMenuOpen
 }) => {
   return (
     <header>
@@ -28,7 +31,10 @@ const Header = ({
           type="search"
           placeholder="Search..."
         />
-        <button className="btn btn-menu icon icon-more-horizontal" />
+        <button
+          className="btn btn-menu icon icon-more-horizontal"
+          onClick={() => setMainMenuOpen(true)}
+        />
       </div>
     </header>
   );
@@ -36,7 +42,8 @@ const Header = ({
 
 Header.propTypes = {
   title: PropTypes.string.isRequired,
-  setBoardTitle: PropTypes.func.isRequired
+  setBoardTitle: PropTypes.func.isRequired,
+  setMainMenuOpen: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -44,7 +51,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return { setBoardTitle: bindActionCreators(setBoardTitle, dispatch) };
+  return {
+    setBoardTitle: bindActionCreators(setBoardTitle, dispatch),
+    setMainMenuOpen: bindActionCreators(setMainMenuOpen, dispatch),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

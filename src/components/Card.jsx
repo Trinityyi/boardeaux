@@ -2,7 +2,9 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setCardModalId } from '../store';
+import actions from '../store/actions';
+
+const { setCardModalId } = actions;
 
 const Card = ({
   card: {

@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { createCard, createColumn } from '../store';
+import actions from '../store/actions';
 import Column from './Column';
+
+const { createCard, createColumn } = actions;
 
 const MainArea = ({
   cards,

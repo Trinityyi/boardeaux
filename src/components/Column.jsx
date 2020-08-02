@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Card from './Card';
 import AddButton from './AddButton';
-import { createCard } from '../store';
+import actions from '../store/actions';
+
+const { createCard } = actions;
 
 /**
  * Renders a column on the board, containing the provided cards.
