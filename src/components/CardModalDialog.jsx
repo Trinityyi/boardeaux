@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
 import EditableText from './EditableText';
-import { setCardModalId, setCardTitle, setCardDescription } from '../store';
+import actions from '../store/actions';
+
+const { setCardModalId, setCardTitle, setCardDescription } = actions;
 
 const CardModalDialog = ({
   id,
@@ -55,8 +57,8 @@ CardModalDialog.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    id: state.cardModalId,
-    card: state.cards[state.cardModalId]
+    id: state.interface.cardModalId,
+    card: state.cards[state.interface.cardModalId]
   };
 };
 

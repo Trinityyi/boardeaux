@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import MainArea from './MainArea';
 import Header from './Header';
 import CardModalDialog from './CardModalDialog';
-import store from '../store';
+import store from '../store/reducer';
 
 const App = () => {
   return (

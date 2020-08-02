@@ -9,6 +9,7 @@ describe('<Column/>', () => {
   beforeEach(() => {
     const utils = renderConnected(
       <Column
+        id='1'
         cards={cards}
         title='Cool things'
       />

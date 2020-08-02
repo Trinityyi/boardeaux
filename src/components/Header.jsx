@@ -3,8 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import EditableText from './EditableText';
-import { setBoardTitle } from '../store';
+import actions from '../store/actions';
 import logo from '../assets/logo.png';
+
+const { setBoardTitle } = actions;
 
 const Header = ({
   title,
