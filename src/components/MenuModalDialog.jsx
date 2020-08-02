@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
 import actions from '../store/actions';
+import { exportToJSON } from '../storage';
 
 const { setMainMenuOpen } = actions;
 
@@ -18,7 +19,10 @@ const MenuModalDialog = ({
       onClose={() => setMainMenuOpen(false)}
     >
       <h3>Menu</h3>
-      <button className="main-menu-btn btn btn-save icon icon-download">
+      <button
+        className="main-menu-btn btn btn-save icon icon-download"
+        onClick={() => exportToJSON()}
+      >
         Export as JSON
       </button>
       <button className="main-menu-btn btn btn-load icon icon-upload">

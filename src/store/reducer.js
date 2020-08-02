@@ -1,4 +1,5 @@
-import { combineReducers } from 'redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import boardReducer, { initialState as boardInitialState } from './board';
 import cardsReducer, { initialState as cardsInitialState } from './cards';
 import columnsReducer, { initialState as columnsInitialState } from './columns';
@@ -19,3 +20,5 @@ export const initialState = {
 };
 
 export default rootReducer;
+
+export const store = createStore(rootReducer, applyMiddleware(thunk));
