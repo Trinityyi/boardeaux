@@ -158,6 +158,10 @@
     "spaced-comment": [
       "error",
       "always"
+    ],
+    "object-curly-spacing":[
+      "error",
+      "always"
     ]
   }
 }

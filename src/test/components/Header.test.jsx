@@ -3,7 +3,7 @@ import renderConnected from '../utils/renderConnected';
 import Header from '../../components/Header';
 
 describe('<Header/>', () => {
-  let wrapper, getByText;
+  let wrapper;
   const initialState = {
     board: {
       title: 'Unicorns'
@@ -13,7 +13,6 @@ describe('<Header/>', () => {
   beforeEach(() => {
     const utils = renderConnected(<Header />, { initialState });
     wrapper = utils.container;
-    getByText = utils.getByText;
   });
 
   it('renders a header', () => {

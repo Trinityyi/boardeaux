@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {createCard, createColumn} from '../store';
+import { createCard, createColumn } from '../store';
 import Column from './Column';
 
 const MainArea = ({
@@ -27,7 +27,7 @@ const MainArea = ({
   return (
     <main>
       <div className="main-area-content">
-        {Object.values(columns).map(({id, title, cardIds}) => (
+        {Object.values(columns).map(({ id, title, cardIds }) => (
           <Column
             id={id}
             key={id}

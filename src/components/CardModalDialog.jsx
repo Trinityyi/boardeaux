@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
 import EditableText from './EditableText';
-import {setCardModalId, setCardTitle, setCardDescription} from '../store';
+import { setCardModalId, setCardTitle, setCardDescription } from '../store';
 
 const CardModalDialog = ({
   id,
@@ -25,9 +25,7 @@ const CardModalDialog = ({
           id="card-modal-title"
           name="card-modal-title"
           value={card.title}
-          onChange={value => {
-            setCardTitle(id, value);
-          }}
+          onChange={value => setCardTitle(id, value)}
         />
       </h2>
       <p>
@@ -35,14 +33,11 @@ const CardModalDialog = ({
           id="card-modal-description"
           name="card-modal-description"
           value={card.description}
-          onChange={value => {
-            setCardDescription(id, value);
-          }}
+          onChange={value => setCardDescription(id, value)}
           isDefaultEditable={!card.description.length}
           isMultiline
         />
       </p>
-
     </Modal>
   );
 };

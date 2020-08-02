@@ -10,7 +10,6 @@ const Modal = ({
   className = '',
   container
 }) => {
-
   return ReactDOM.createPortal(
     <div className="modal-wrapper" onClick={e => {
       if (e.target === e.currentTarget) onClose();

@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import EditableText from './EditableText';
-import {setBoardTitle} from '../store';
+import { setBoardTitle } from '../store';
 import logo from '../assets/logo.png';
 
 const Header = ({
@@ -40,11 +40,11 @@ Header.propTypes = {
 };
 
 const mapStateToProps = state => {
-  return {title: state.board.title};
+  return { title: state.board.title };
 };
 
 const mapDispatchToProps = dispatch => {
-  return { setBoardTitle: bindActionCreators(setBoardTitle, dispatch)};
+  return { setBoardTitle: bindActionCreators(setBoardTitle, dispatch) };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

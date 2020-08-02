@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Card from './Card';
 import AddButton from './AddButton';
-import {createCard} from '../store';
+import { createCard } from '../store';
 
 /**
  * Renders a column on the board, containing the provided cards.
@@ -29,7 +29,7 @@ const Column = ({
       <AddButton
         id={`btn-${id}`}
         name={`btn-${id}`}
-        onSubmit={cardTitle => createCard({title: cardTitle}, id)}
+        onSubmit={cardTitle => createCard({ title: cardTitle }, id)}
         buttonText="Add a card"
         wrapperClassName="column-action-add"
         buttonClassName="btn-column-add"

@@ -14,7 +14,7 @@ const renderConnected = (
   const Wrapper = ({ children }) => (
     <Provider store={store}>{children}</Provider>
   );
-  return render(ui, { wrapper: Wrapper, ...renderOptions});
+  return render(ui, { wrapper: Wrapper, ...renderOptions });
 };
 
 export default renderConnected;
