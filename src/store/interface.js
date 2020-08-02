@@ -1,9 +1,11 @@
 export const initialState = {
-  cardModalId: null
+  cardModalId: null,
+  isMainMenuOpen: false
 };
 
 export const actionTypes = {
-  SET_CARD_MODAL_ID: 'SET_CARD_MODAL_ID'
+  SET_CARD_MODAL_ID: 'SET_CARD_MODAL_ID',
+  SET_MAIN_MENU_OPEN: 'SET_MAIN_MENU_OPEN'
 };
 
 const reducer = (state = initialState, action) => {
@@ -12,6 +14,11 @@ const reducer = (state = initialState, action) => {
     return {
       ...state,
       cardModalId: action.cardId
+    };
+  case actionTypes.SET_MAIN_MENU_OPEN:
+    return {
+      ...state,
+      isMainMenuOpen: action.isOpen
     };
   default:
     return state;
@@ -23,6 +30,12 @@ export const actions = {
     return {
       type: actionTypes.SET_CARD_MODAL_ID,
       cardId
+    };
+  },
+  setMainMenuOpen: isOpen => {
+    return {
+      type: actionTypes.SET_MAIN_MENU_OPEN,
+      isOpen
     };
   }
 };
