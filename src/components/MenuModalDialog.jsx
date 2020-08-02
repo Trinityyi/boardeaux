@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
 import actions from '../store/actions';
-import { exportToJSON } from '../storage';
+import { exportToJSON, importFromJSON } from '../storage';
 
 const { setMainMenuOpen } = actions;
 
@@ -25,7 +25,17 @@ const MenuModalDialog = ({
       >
         Export as JSON
       </button>
-      <button className="main-menu-btn btn btn-load icon icon-upload">
+      <input
+        type="file"
+        id="main-menu-load-json"
+        style={{ display: 'none' }}
+        accept="application/json"
+        onChange={e => { importFromJSON(e.target.files); }}
+      />
+      <button
+        className="main-menu-btn btn btn-load icon icon-upload"
+        onClick={() => document.getElementById('main-menu-load-json').click()}
+      >
         Load from JSON
       </button>
     </Modal>

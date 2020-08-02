@@ -8,7 +8,8 @@ export const initialState = {};
 export const actionTypes = {
   CREATE_CARD: 'CREATE_CARD',
   SET_CARD_TITLE: 'SET_CARD_TITLE',
-  SET_CARD_DESCRIPTION: 'SET_CARD_DESCRIPTION'
+  SET_CARD_DESCRIPTION: 'SET_CARD_DESCRIPTION',
+  IMPORT_CARDS: 'IMPORT_CARDS'
 };
 
 const reducer = (state = initialState, action) => {
@@ -34,6 +35,8 @@ const reducer = (state = initialState, action) => {
         description: action.description
       }
     };
+  case actionTypes.IMPORT_CARDS:
+    return action.data;
   default:
     return state;
   }
@@ -66,6 +69,12 @@ export const actions = {
       type: actionTypes.SET_CARD_DESCRIPTION,
       description,
       id
+    };
+  },
+  importCards: data => {
+    return {
+      type: actionTypes.IMPORT_CARDS,
+      data
     };
   }
 };
