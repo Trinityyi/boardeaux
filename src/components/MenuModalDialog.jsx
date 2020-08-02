@@ -30,7 +30,7 @@ const MenuModalDialog = ({
         id="main-menu-load-json"
         style={{ display: 'none' }}
         accept="application/json"
-        onChange={e => { importFromJSON(e.target.files); }}
+        onChange={e => importFromJSON(e.target.files) }
       />
       <button
         className="main-menu-btn btn btn-load icon icon-upload"
