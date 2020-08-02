@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import MainArea from './MainArea';
 import Header from './Header';
 import CardModalDialog from './CardModalDialog';
+import MenuModalDialog from './MenuModalDialog';
 import store from '../store/reducer';
 
 const App = () => {
@@ -12,7 +13,8 @@ const App = () => {
     <Provider store={createStore(store, applyMiddleware(thunk))}>
       <Header />
       <MainArea />
-      <CardModalDialog/>
+      <CardModalDialog />
+      <MenuModalDialog />
     </Provider>
   );
 };
