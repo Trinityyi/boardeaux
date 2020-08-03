@@ -65,6 +65,18 @@ describe('<AddButton/>', () => {
       });
     });
 
+    describe('on enter pressed', () => {
+      beforeEach(() => {
+        fireEvent.change(wrapper.querySelector('.add-button-wrapper > input'), { target: { value: 'Hey' } });
+        fireEvent.keyPress(wrapper.querySelector('.add-button-wrapper > input'), { key: 'Enter', code: 13, charCode: 13 });
+      });
+
+      it('fires onChange with the updated value', () => {
+        expect(onSubmitSpy.mock.calls.length).toBe(2);
+        expect(onSubmitSpy.mock.calls[0][0]).toBe('Hey');
+      });
+    });
+
     describe('on click outside', () => {
       beforeEach(() => {
         fireEvent.change(wrapper.querySelector('.add-button-wrapper > input'), { target: { value: 'Hey' } });
@@ -72,7 +84,7 @@ describe('<AddButton/>', () => {
       });
 
       it('fires onChange with the updated value', () => {
-        expect(onSubmitSpy.mock.calls.length).toBe(2);
+        expect(onSubmitSpy.mock.calls.length).toBe(3);
         expect(onSubmitSpy.mock.calls[0][0]).toBe('Hey');
       });
     });
@@ -84,7 +96,7 @@ describe('<AddButton/>', () => {
       });
 
       it('fires onChange with the updated value', () => {
-        expect(onSubmitSpy.mock.calls.length).toBe(2);
+        expect(onSubmitSpy.mock.calls.length).toBe(3);
       });
     });
   });
