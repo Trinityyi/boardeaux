@@ -15,6 +15,7 @@ const CardModalDialog = ({
   setCardTitle,
   setCardDescription
 }) => {
+  const myRef = React.createRef();
   if (!id) return null;
   return (
     <Modal
@@ -22,25 +23,39 @@ const CardModalDialog = ({
       id={`card-modal-${id}`}
       onClose={() => setCardModalId(null)}
     >
-      <h2>
-        <EditableText
-          id="card-modal-title"
-          name="card-modal-title"
-          value={card.title}
-          onChange={value => setCardTitle(id, value)}
-        />
-      </h2>
-      <p>
+      <div className="modal-card-section">
+        <label htmlFor="card-modal-title" className=" for-editable icon icon-hexagon">
+          Title
+        </label>
+        <h2 className="modal-card-title">
+          <EditableText
+            id="card-modal-title"
+            name="card-modal-title"
+            value={card.title}
+            onChange={value => setCardTitle(id, value)}
+            cRef={myRef}
+          />
+        </h2>
+      </div>
+      <div className="modal-card-section">
+        <label htmlFor="card-modal-description" className="for-editable icon icon-align-left">Description</label>
         <EditableText
           id="card-modal-description"
+          className="modal-card-description"
           name="card-modal-description"
           value={card.description}
           onChange={value => setCardDescription(id, value)}
           isDefaultEditable={!card.description.length}
           isMultiline
           isMarkdown
+          remainEditableWhileEmpty
         />
-      </p>
+      </div>
+      <div className="modal-card-section">
+        <label className="icon icon-credit-card id-label">
+          Card ID: {card.id}
+        </label>
+      </div>
     </Modal>
   );
 };

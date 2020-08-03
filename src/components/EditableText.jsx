@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+import combineClassNames from '@chalarangelo/combine-class-names';
 import useClickOutside from '../hooks/useClickOutside';
+import useClickSelector from '../hooks/useClickSelector';
 import { parseMarkdown } from '../utils';
 
 /**
@@ -11,22 +13,27 @@ import { parseMarkdown } from '../utils';
  */
 const EditableText = ({
   id,
+  className = '',
   name,
   value,
   onChange,
   isDefaultEditable = false,
   isMultiline = false,
-  isMarkdown = false
+  isMarkdown = false,
+  remainEditableWhileEmpty = false
 }) => {
   const [isEditable, setIsEditable] = useState(isDefaultEditable);
   const clickRef = useRef();
   useClickOutside(clickRef, () => {
-    if (isEditable) setIsEditable(false);
+    if (isEditable && (!remainEditableWhileEmpty || value.trim().length)) setIsEditable(false);
+  });
+  useClickSelector(clickRef, `label[for="${id}"]`, () => {
+    if(!isEditable) setIsEditable(true);
   });
 
   const EditableField = isMultiline ? 'textarea' : 'input';
   return (
-    <div className="editable-text-wrapper" ref={clickRef}>
+    <div className={combineClassNames`editable-text-wrapper ${className}`} ref={clickRef}>
       {
         isEditable ? (
           <EditableField
@@ -52,9 +59,14 @@ const EditableText = ({
 
 EditableText.propTypes = {
   id: PropTypes.string.isRequired,
+  className: PropTypes.string,
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  isDefaultEditable: PropTypes.bool,
+  isMultiline: PropTypes.bool,
+  isMarkdown: PropTypes.bool,
+  remainEditableWhileEmpty: PropTypes.bool,
 };
 
 export default EditableText;
