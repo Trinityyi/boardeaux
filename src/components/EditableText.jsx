@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import useClickOutside from '../hooks/useClickOutside';
+import { parseMarkdown } from '../utils';
 
 /**
  * Renders a stateful component that toggles between editable and view-only on
@@ -14,7 +15,8 @@ const EditableText = ({
   value,
   onChange,
   isDefaultEditable = false,
-  isMultiline = false
+  isMultiline = false,
+  isMarkdown = false
 }) => {
   const [isEditable, setIsEditable] = useState(isDefaultEditable);
   const clickRef = useRef();
@@ -35,7 +37,12 @@ const EditableText = ({
             value={value}
           />
         ) : (
-          <span onClick={() => setIsEditable(true)}>{value}</span>
+          <span
+            onClick={() => setIsEditable(true)}
+            dangerouslySetInnerHTML={{
+              __html: isMarkdown ? parseMarkdown(value) : value
+            }}
+          />
         )
       }
     </div>
