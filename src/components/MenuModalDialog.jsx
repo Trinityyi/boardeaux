@@ -9,16 +9,21 @@ import { exportToJSON, importFromJSON } from '../storage';
 const { setMainMenuOpen } = actions;
 
 const MenuModalDialog = ({
-  isOpen
+  isOpen,
+  setMainMenuOpen
 }) => {
   if (!isOpen) return null;
   return (
     <Modal
       container={document.getElementById('main-menu-root')}
       id="main-menu-modal"
-      onClose={() => setMainMenuOpen(false)}
+      onClose={() => {}}
     >
-      <h3>Menu</h3>
+      <button
+        className="btn btn-menu-close icon icon-x"
+        onClick={() => setMainMenuOpen(false)}
+      />
+      <h3 className="main-menu-title">Menu</h3>
       <button
         className="main-menu-btn btn btn-save icon icon-download"
         onClick={() => exportToJSON()}
@@ -44,6 +49,7 @@ const MenuModalDialog = ({
 
 MenuModalDialog.propTypes = {
   isOpen: PropTypes.bool.isRequired,
+  setMainMenuOpen: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
