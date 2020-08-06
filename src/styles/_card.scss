@@ -1,0 +1,25 @@
+.card {
+  position: relative;
+  cursor: pointer;
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background: #FDFDFD;
+  line-height: 1.5;
+
+  &:after {
+    color: transparent;
+    position: absolute;
+    right: 8px;
+    content: '\f160'; // edit-2
+    font-family: "Feather" !important;
+    font-weight: 400;
+    transition: 0.3s ease all;
+  }
+
+  &:hover {
+    &:after {
+      color: inherit;
+    }
+  }
+}

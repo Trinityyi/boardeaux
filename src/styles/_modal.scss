@@ -2,7 +2,6 @@
   position: fixed;
   z-index: 1000;
   background: rgba(0, 0, 0, 0.58);
-  position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
@@ -10,14 +9,26 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
+
+  &.hidden {
+    visibility: hidden;
+    pointer-events: none;
+
+    & > .modal-content {
+      margin-top: 56px;
+      opacity: 0;
+    }
+  }
 }
 
 .modal-content {
   background: #fff;
   margin-top: 64px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.11);
+  transition: all 0.3s ease;
 }
 
-.modal-card-dialog {
+.modal-card-dialog .modal-content {
   border-radius: 4px;
   width: 100vw;
   max-width: 600px;
@@ -73,12 +84,20 @@
 
     &.for-editable {
       cursor: pointer;
+
+      &:after {
+        color: transparent;
+        position: absolute;
+        right: 4px;
+        content: '\f160'; // edit-2
+        font-family: "Feather" !important;
+        font-weight: 400;
+        transition: 0.3s ease all;
+      }
+
       &:hover {
         &:after {
-          position: absolute;
-          right: 4px;
-          content: 'Edit';
-          font-weight: 400;
+          color: inherit;
         }
       }
     }

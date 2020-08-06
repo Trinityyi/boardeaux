@@ -9,13 +9,13 @@ const Modal = ({
   className = ''
 }) => {
   return (
-    <div className="modal-wrapper" onClick={e => {
-      if (e.target === e.currentTarget) onClose();
-    }}>
-      <div
-        className={combineClassNames`modal-content ${className}`}
-        id={id}
-      >
+    <div
+      className={combineClassNames`modal-wrapper ${className}`}
+      onClick={e => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="modal-content" id={id}>
         {children}
       </div>
     </div>

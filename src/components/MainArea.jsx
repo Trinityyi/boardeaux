@@ -14,13 +14,29 @@ const MainArea = ({
   createColumn
 }) => {
   useEffect(() => {
+    const mdTest = [
+      'Testing markdown.',
+      'This has **bold text**.',
+      'This is _italics_.',
+      '\nNew paragraph',
+      '\n#### Title 4',
+      '\n- List item 1',
+      '- List item 2',
+      '\nNew paragraph',
+      '\n1. First',
+      '2. Second',
+      '\nNew paragraph',
+      '\n- [ ] Not complete yet',
+      '- [x] Completed'
+    ].join('\n');
+
     const columnIds = [
       createColumn({ title: 'To Do' }),
       createColumn({ title: 'In Progress' }),
       createColumn({ title: 'Done' })
     ].map(x => x.id);
     createCard({ title: 'Hallo' }, columnIds[0]);
-    createCard({ title: 'Hola' }, columnIds[0]);
+    createCard({ title: 'Hola', description: mdTest }, columnIds[0]);
     createCard({ title: 'Gulp' }, columnIds[0]);
     createCard({ title: 'Start' }, columnIds[1]);
     createCard({ title: 'Stop' }, columnIds[1]);

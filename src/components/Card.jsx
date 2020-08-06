@@ -14,7 +14,13 @@ const Card = ({
   setCardModalId
 }) => {
   return (
-    <li id={id} onClick={() => setCardModalId(id)}>{title}</li>
+    <li
+      className="card"
+      id={id}
+      onClick={() => setCardModalId(id)}
+    >
+      {title}
+    </li>
   );
 };
 

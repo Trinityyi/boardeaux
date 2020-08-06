@@ -8,6 +8,7 @@
   scroll-margin: 0 16px;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 
   .column-title {
     padding: 14px 12px;
@@ -28,14 +29,6 @@
     margin: 0;
     list-style: none;
     overflow-y: auto;
-
-    > li {
-      padding: 8px;
-      margin-bottom: 8px;
-      border-radius: 8px;
-      background: #FDFDFD;
-      line-height: 1.5;
-    }
   }
 
   .column-action-add {
