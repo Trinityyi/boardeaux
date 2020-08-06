@@ -1,21 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { render, fireEvent } from '@testing-library/react';
 import Modal from '../../components/Modal';
 
 describe('<Modal/>', () => {
   let wrapper;
   const onCloseSpy = jest.fn();
-
-  beforeAll(() => {
-    ReactDOM.createPortal = jest.fn((element, node) => {
-      return element;
-    });
-  });
-
-  afterEach(() => {
-    ReactDOM.createPortal.mockClear();
-  });
 
   beforeEach(() => {
     const utils = render(
@@ -45,10 +34,6 @@ describe('<Modal/>', () => {
 
   it('renders the inner wrappre', () => {
     expect(wrapper.querySelector('.modal-wrapper .modal-content')).toBeInTheDocument();
-  });
-
-  it('renders as a portal in the appropriate container', () => {
-    expect(ReactDOM.createPortal.mock.calls[0][1]).toBe('my-container');
   });
 
   describe('on wrapper click', () => {

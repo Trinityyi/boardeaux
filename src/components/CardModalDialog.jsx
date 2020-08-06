@@ -18,7 +18,7 @@ const CardModalDialog = ({
   if (!id) return null;
   return (
     <Modal
-      container={document.getElementById('modal-root')}
+      className="modal-card-dialog"
       id={`card-modal-${id}`}
       onClose={() => setCardModalId(null)}
     >
