@@ -1,17 +1,25 @@
-input {
+input, textarea {
   transition: 0.3s ease all;
   background: #EDEFF3;
   border: none;
   border-radius: 8px;
   outline: none;
   box-sizing: border-box;
-  padding: 4px 8px;
   font-size: 1em;
   font-weight: 400;
   height: 44px;
-  color: #3A4650;
+  color: #313c44;
 
   &::placeholder {
     color: #516371;
   }
+}
+
+input {
+  padding: 4px 8px;
+}
+
+textarea {
+  padding: 12px 8px;
+  height: calc(6rem + 24px);
 }
