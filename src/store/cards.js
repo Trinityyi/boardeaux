@@ -60,7 +60,8 @@ export const actions = {
       data: {
         id,
         title,
-        description: description ? description : ''
+        description: description ? description : '',
+        priority: 2
       },
       id
     });
