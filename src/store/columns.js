@@ -5,7 +5,8 @@ export const initialState = {};
 export const actionTypes = {
   CREATE_COLUMN: 'CREATE_COLUMN',
   ADD_CARD_TO_COLUMN: 'ADD_CARD_TO_COLUMN',
-  IMPORT_COLUMNS: 'IMPORT_COLUMNS'
+  IMPORT_COLUMNS: 'IMPORT_COLUMNS',
+  REMOVE_CARD_FROM_COLUMN: 'REMOVE_CARD_FROM_COLUMN'
 };
 
 const reducer = (state = initialState, action) => {
@@ -28,6 +29,15 @@ const reducer = (state = initialState, action) => {
     };
   case actionTypes.IMPORT_COLUMNS:
     return action.data;
+  case actionTypes.REMOVE_CARD_FROM_COLUMN:
+    return {
+      ...state,
+      [action.columnId]: {
+        ...state[action.columnId],
+        cardIds:
+          state[action.columnId].cardIds.filter(id => id !== action.cardId)
+      }
+    };
   default:
     return state;
   }
@@ -56,7 +66,14 @@ export const actions = {
       type: actionTypes.IMPORT_COLUMNS,
       data
     };
-  }
+  },
+  removeCardFromColumn: (cardId, columnId) => {
+    return {
+      type: actionTypes.REMOVE_CARD_FROM_COLUMN,
+      cardId,
+      columnId
+    };
+  },
 };
 
 export default reducer;
