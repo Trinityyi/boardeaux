@@ -7,7 +7,7 @@ describe('<Header/>', () => {
 
   beforeEach(() => {
     const utils = renderConnected(
-      <Card card={{ id: '1', title: 'Card' }}/>,
+      <Card card={{ id: '1', title: 'Card', priority: 2 }}/>,
       {});
     wrapper = utils.container;
   });

@@ -6,15 +6,17 @@ import Modal from './Modal';
 import EditableText from './EditableText';
 import actions from '../store/actions';
 import combineClassNames from '@chalarangelo/combine-class-names';
+import { priorities } from '../shared';
 
-const { setCardModalId, setCardTitle, setCardDescription } = actions;
+const { setCardModalId, setCardTitle, setCardDescription, setCardPriority } = actions;
 
 const CardModalDialog = ({
   id,
   card,
   setCardModalId,
   setCardTitle,
-  setCardDescription
+  setCardDescription,
+  setCardPriority
 }) => {
   const myRef = React.createRef();
   const isOpen = Boolean(id);
@@ -67,9 +69,19 @@ const CardModalDialog = ({
           </div>
           <div className="modal-card-section">
             <label htmlFor="card-modal-priority" className="for-editable icon icon-alert-circle">
-              Priority
+            Priority
             </label>
-            <p>TODO</p>
+            <select
+              name="card-modal-priority"
+              id="card-modal-priority"
+              onChange={e => setCardPriority(id, parseInt(e.target.value))}
+              value={card.priority}
+            >
+              {priorities.map(
+                (priority, i) => (
+                  <option key={i} value={i}>{priority}</option>
+                ))}
+            </select>
           </div>
           <div className="modal-card-section">
             <label className="icon icon-credit-card id-label">
@@ -90,7 +102,8 @@ CardModalDialog.propTypes = {
   }),
   setCardModalId: PropTypes.func.isRequired,
   setCardTitle: PropTypes.func.isRequired,
-  setCardDescription: PropTypes.func.isRequired
+  setCardDescription: PropTypes.func.isRequired,
+  setCardPriority: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -104,7 +117,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setCardModalId: bindActionCreators(setCardModalId, dispatch),
     setCardTitle: bindActionCreators(setCardTitle, dispatch),
-    setCardDescription: bindActionCreators(setCardDescription, dispatch)
+    setCardDescription: bindActionCreators(setCardDescription, dispatch),
+    setCardPriority: bindActionCreators(setCardPriority, dispatch)
   };
 };
 

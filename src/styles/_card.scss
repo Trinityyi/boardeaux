@@ -1,7 +1,7 @@
 .card {
   position: relative;
   cursor: pointer;
-  padding: 8px;
+  padding: 8px 8px 8px 12px;
   margin-bottom: 8px;
   border-radius: 8px;
   background: #FDFDFD;
@@ -21,5 +21,35 @@
     &:after {
       color: inherit;
     }
+  }
+
+  &:before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 8px 0 0 8px;
+  }
+
+  &.wishlist:before {
+    background: #2196F3;
+  }
+
+  &.low:before {
+    background: #8BC34A;
+  }
+
+  &.normal:before {
+    background: #FFC107;
+  }
+
+  &.high:before {
+    background: #FF9800;
+  }
+
+  &.critical:before {
+    background: #F44336;
   }
 }
