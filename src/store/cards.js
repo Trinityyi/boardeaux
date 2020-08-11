@@ -9,7 +9,8 @@ export const actionTypes = {
   CREATE_CARD: 'CREATE_CARD',
   SET_CARD_TITLE: 'SET_CARD_TITLE',
   SET_CARD_DESCRIPTION: 'SET_CARD_DESCRIPTION',
-  IMPORT_CARDS: 'IMPORT_CARDS'
+  IMPORT_CARDS: 'IMPORT_CARDS',
+  SET_PRIORITY: 'SET_PRIORITY'
 };
 
 const reducer = (state = initialState, action) => {
@@ -37,6 +38,14 @@ const reducer = (state = initialState, action) => {
     };
   case actionTypes.IMPORT_CARDS:
     return action.data;
+  case actionTypes.SET_PRIORITY:
+    return {
+      ...state,
+      [action.id]: {
+        ...state[action.id],
+        priority: action.priority
+      }
+    };
   default:
     return state;
   }
@@ -76,7 +85,14 @@ export const actions = {
       type: actionTypes.IMPORT_CARDS,
       data
     };
-  }
+  },
+  setCardPriority: (id, priority) => {
+    return {
+      type: actionTypes.SET_PRIORITY,
+      priority,
+      id
+    };
+  },
 };
 
 export default reducer;
