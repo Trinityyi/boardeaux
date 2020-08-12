@@ -34,7 +34,7 @@ const reducer = (state = initialState, action) => {
   case actionTypes.SET_DRAGGED_CARD:
     return {
       ...state,
-      draggedCard: action.cardId
+      draggedCard: action.cardData
     };
   default:
     return state;
@@ -68,10 +68,10 @@ export const actions = {
       hoveredCardState: false
     };
   },
-  setDraggedCard: cardId => {
+  setDraggedCard: cardData => {
     return {
       type: actionTypes.SET_DRAGGED_CARD,
-      cardId
+      cardData
     };
   },
 };
