@@ -29,6 +29,11 @@
     margin: 0;
     list-style: none;
     overflow-y: auto;
+
+    &:empty {
+      height: 54px;
+      box-sizing: border-box;
+    }
   }
 
   .column-action-add {
