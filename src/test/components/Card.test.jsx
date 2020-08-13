@@ -1,5 +1,5 @@
 import React from 'react';
-import renderDndConnected from '../utils/renderDndConnected';
+import renderDndConnected from '../test_utils/renderDndConnected';
 import Card from '../../components/Card';
 
 const noop = () => { };
