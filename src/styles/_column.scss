@@ -29,6 +29,17 @@
     margin: 0;
     list-style: none;
     overflow-y: auto;
+
+    &:empty {
+      box-sizing: border-box;
+      height: 54px;
+    }
+
+    &.hover:empty {
+      background: #dbdbdb;
+      margin: 0 12px 6px;
+      border-radius: 8px;
+    }
   }
 
   .column-action-add {

@@ -1,5 +1,5 @@
 import React from 'react';
-import renderConnected from '../utils/renderConnected';
+import renderConnected from '../test_utils/renderConnected';
 import Header from '../../components/Header';
 
 describe('<Header/>', () => {

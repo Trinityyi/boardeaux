@@ -1,5 +1,5 @@
 import React from 'react';
-import renderConnected from '../utils/renderConnected';
+import renderDndConnected from '../test_utils/renderDndConnected';
 import Column from '../../components/Column';
 import { cards } from '../fixtures/cards';
 
@@ -7,7 +7,7 @@ describe('<Column/>', () => {
   let wrapper, getByText;
 
   beforeEach(() => {
-    const utils = renderConnected(
+    const utils = renderDndConnected(
       <Column
         id='1'
         cards={cards}
