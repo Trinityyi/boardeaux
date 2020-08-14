@@ -1,7 +1,8 @@
 export const card = {
   id: '1',
   title: 'This is card',
-  priority: 2
+  priority: 2,
+  tags: []
 };
 
 export const cards = [
@@ -9,6 +10,7 @@ export const cards = [
   {
     id: '2',
     title: 'This is another card',
-    priority: 3
+    priority: 3,
+    tags: []
   }
 ];
