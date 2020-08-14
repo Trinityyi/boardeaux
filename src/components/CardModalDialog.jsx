@@ -5,10 +5,27 @@ import PropTypes from 'prop-types';
 import Modal from './Modal';
 import EditableText from './EditableText';
 import actions from '../store/actions';
+import TagInput from './TagInput';
 import combineClassNames from '@chalarangelo/combine-class-names';
 import { priorities } from '../shared';
 
-const { setCardModalId, setCardTitle, setCardDescription, setCardPriority } = actions;
+const {
+  setCardModalId,
+  setCardTitle,
+  setCardDescription,
+  setCardPriority,
+  addTag,
+  removeTag
+} = actions;
+
+const ourTags = [
+  { id: 'USA', name: 'USA' },
+  { id: 'Germany', name: 'Germany' },
+  { id: 'Austria', name: 'Austria' },
+  { id: 'Costa Rica', name: 'Costa Rica' },
+  { id: 'Sri Lanka', name: 'Sri Lanka' },
+  { id: 'Thailand', name: 'Thailand' }
+];
 
 const CardModalDialog = ({
   id,
@@ -16,7 +33,9 @@ const CardModalDialog = ({
   setCardModalId,
   setCardTitle,
   setCardDescription,
-  setCardPriority
+  setCardPriority,
+  addTag,
+  removeTag
 }) => {
   const myRef = React.createRef();
   const isOpen = Boolean(id);
@@ -64,7 +83,15 @@ const CardModalDialog = ({
               Labels
             </label>
             <div>
-              <span className="task-label">TODO</span>
+              <TagInput
+                tags={card.tags.map(tag => ourTags.find(t => tag === t.id))}
+                suggestions={ourTags}
+                onDelete={i => { removeTag(id, card.tags[i]); }}
+                onAddition={tag => {
+                  if (!card.tags.some(t => tag.id === t))
+                    addTag(id, tag.id);
+                }}
+              />
             </div>
           </div>
           <div className="modal-card-section">
@@ -103,7 +130,9 @@ CardModalDialog.propTypes = {
   setCardModalId: PropTypes.func.isRequired,
   setCardTitle: PropTypes.func.isRequired,
   setCardDescription: PropTypes.func.isRequired,
-  setCardPriority: PropTypes.func.isRequired
+  setCardPriority: PropTypes.func.isRequired,
+  addTag: PropTypes.func.isRequired,
+  removeTag: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -118,7 +147,9 @@ const mapDispatchToProps = dispatch => {
     setCardModalId: bindActionCreators(setCardModalId, dispatch),
     setCardTitle: bindActionCreators(setCardTitle, dispatch),
     setCardDescription: bindActionCreators(setCardDescription, dispatch),
-    setCardPriority: bindActionCreators(setCardPriority, dispatch)
+    setCardPriority: bindActionCreators(setCardPriority, dispatch),
+    addTag: bindActionCreators(addTag, dispatch),
+    removeTag: bindActionCreators(removeTag, dispatch)
   };
 };
 
