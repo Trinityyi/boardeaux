@@ -1,30 +1,35 @@
 .tag {
   position: relative;
   display: inline-block;
-  padding: 2px 28px 2px 8px;
+  padding: 2px 8px 2px 8px;
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 20px;
   border-radius: 2em;
   background: #6a737d;
   color: #fff;
-  cursor: pointer;
+  
 
-  &:before {
-    position: absolute;
-    right: 0;
-    top: 0;
-    background: rgba(0, 0, 0, 0.33);
-    color: #fff;
-    height: 24px;
-    width: 24px;
-    line-height: 24px;
-    text-align: center;
-    border-radius: 2em;
-  }
+  &.closable {
+    padding: 2px 28px 2px 8px;
+    cursor: pointer;
 
-  &:hover:before {
-    background: rgba(0, 0, 0, 0.66);
+    &:before {
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: rgba(0, 0, 0, 0.33);
+      color: #fff;
+      height: 24px;
+      width: 24px;
+      line-height: 24px;
+      text-align: center;
+      border-radius: 2em;
+    }
+
+    &:hover:before {
+      background: rgba(0, 0, 0, 0.66);
+    }
   }
 
   + .tag {

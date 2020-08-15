@@ -8,6 +8,7 @@ import actions from '../store/actions';
 import TagInput from './TagInput';
 import combineClassNames from '@chalarangelo/combine-class-names';
 import { priorities } from '../shared';
+import { TagPropShape } from './Tag';
 
 const {
   setCardModalId,
@@ -18,19 +19,10 @@ const {
   removeTag
 } = actions;
 
-const ourTags = [
-  { id: 'USA', name: 'USA' },
-  { id: 'Germany', name: 'Germany' },
-  { id: 'Georgia', name: 'Georgia' },
-  { id: 'Austria', name: 'Austria' },
-  { id: 'Costa Rica', name: 'Costa Rica' },
-  { id: 'Sri Lanka', name: 'Sri Lanka' },
-  { id: 'Thailand', name: 'Thailand' }
-];
-
 const CardModalDialog = ({
   id,
   card,
+  tags,
   setCardModalId,
   setCardTitle,
   setCardDescription,
@@ -88,8 +80,8 @@ const CardModalDialog = ({
             <div>
               <TagInput
                 id="card-modal-tags"
-                tags={card.tags.map(tag => ourTags.find(t => tag === t.id))}
-                suggestions={ourTags}
+                tags={card.tags.map(tag => tags.find(t => tag === t.id))}
+                suggestions={tags}
                 onDelete={i => { removeTag(id, card.tags[i]); }}
                 onAddition={tag => {
                   if (!card.tags.some(t => tag.id === t))
@@ -131,6 +123,7 @@ CardModalDialog.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   }),
+  tags: PropTypes.arrayOf(TagPropShape).isRequired,
   setCardModalId: PropTypes.func.isRequired,
   setCardTitle: PropTypes.func.isRequired,
   setCardDescription: PropTypes.func.isRequired,
@@ -142,7 +135,8 @@ CardModalDialog.propTypes = {
 const mapStateToProps = state => {
   return {
     id: state.interface.cardModalId,
-    card: state.cards[state.interface.cardModalId]
+    card: state.cards[state.interface.cardModalId],
+    tags: Object.keys(state.tags).map(key => state.tags[key])
   };
 };
 
