@@ -1,23 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactTags from 'react-tag-autocomplete';
-
-const TagPropShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string
-});
-
-const Tag = ({ tag, onDelete }) => (
-  <span
-    className="tag icon icon-x"
-    onClick={onDelete}
-    style={{
-      color: tag.color,
-      backgroundColor: tag.backgroundColor
-    }}>
-    {tag.name}
-  </span>
-);
+import Tag, { TagPropShape } from './Tag';
 
 const TagInput = ({
   id,
@@ -36,6 +20,7 @@ const TagInput = ({
         return validSuggestions.filter(s => new RegExp(`^${query}`, 'gi').test(s.name));
       }}
       maxSuggestionsLength={8}
+      minQueryLength={0}
       onDelete={onDelete}
       onAddition={onAddition}
       classNames={{
