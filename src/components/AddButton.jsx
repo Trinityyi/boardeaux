@@ -50,6 +50,7 @@ const AddButton = ({
             id={id}
             defaultValue={defaultValue}
             autoFocus
+            placeholder="Add a card"
             onKeyPress={e => {
               if (e.charCode === 13) handleInputSubmit(false);
             }}

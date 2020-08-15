@@ -9,7 +9,7 @@ const TagPropShape = PropTypes.shape({
 
 const Tag = ({ tag, onDelete }) => (
   <span
-    className="task-label icon icon-x"
+    className="tag icon icon-x"
     onClick={onDelete}
     style={{
       color: tag.color,
@@ -20,6 +20,7 @@ const Tag = ({ tag, onDelete }) => (
 );
 
 const TagInput = ({
+  id,
   tags,
   suggestions,
   onDelete,
@@ -27,25 +28,26 @@ const TagInput = ({
 }) => {
   return (
     <ReactTags
+      id={id}
       tags={tags}
       suggestions={suggestions}
       suggestionsTransform={(query, suggestions) => {
         const validSuggestions = suggestions.filter(s => !tags.some(t => t.id === s.id));
-        const matcher = new RegExp(`^${query}`, 'gi');
-        return validSuggestions.filter(s => matcher.test(s.name));
+        return validSuggestions.filter(s => new RegExp(`^${query}`, 'gi').test(s.name));
       }}
+      maxSuggestionsLength={8}
       onDelete={onDelete}
       onAddition={onAddition}
       classNames={{
-        root: 'react-tags',
+        root: 'tag-input-wrapper',
         rootFocused: 'is-focused',
-        selected: 'react-tags__selected',
-        selectedTag: 'task-label',
-        selectedTagName: 'react-tags__selected-tag-name',
-        search: 'react-tags__search',
-        searchWrapper: 'react-tags__search-wrapper',
-        searchInput: 'react-tags__search-input',
-        suggestions: 'react-tags__suggestions',
+        selected: 'tag-input-selection',
+        selectedTag: 'tag',
+        selectedTagName: 'tag-input-selected-tag-name',
+        search: 'tag-input-search',
+        searchWrapper: 'tag-input-search-wrapper',
+        searchInput: 'tag-input-field',
+        suggestions: 'tag-input-suggestions',
         suggestionActive: 'is-active',
         suggestionDisabled: 'is-disabled'
       }}
@@ -57,6 +59,7 @@ const TagInput = ({
 };
 
 TagInput.propTypes = {
+  id: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(TagPropShape),
   suggestions: PropTypes.arrayOf(TagPropShape),
   onDelete: PropTypes.func.isRequired,

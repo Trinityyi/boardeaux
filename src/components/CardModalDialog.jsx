@@ -21,6 +21,7 @@ const {
 const ourTags = [
   { id: 'USA', name: 'USA' },
   { id: 'Germany', name: 'Germany' },
+  { id: 'Georgia', name: 'Georgia' },
   { id: 'Austria', name: 'Austria' },
   { id: 'Costa Rica', name: 'Costa Rica' },
   { id: 'Sri Lanka', name: 'Sri Lanka' },
@@ -59,6 +60,7 @@ const CardModalDialog = ({
                 value={card.title}
                 onChange={value => setCardTitle(id, value)}
                 cRef={myRef}
+                placeholder="Add a title"
               />
             </h2>
           </div>
@@ -70,6 +72,7 @@ const CardModalDialog = ({
               id="card-modal-description"
               className="modal-card-description"
               name="card-modal-description"
+              placeholder="Add a description"
               value={card.description}
               onChange={value => setCardDescription(id, value)}
               isDefaultEditable={!card.description.length}
@@ -79,11 +82,12 @@ const CardModalDialog = ({
             />
           </div>
           <div className="modal-card-section">
-            <label htmlFor="card-modal-labels" className="for-editable icon icon-tag">
-              Labels
+            <label htmlFor="card-modal-tags" className="for-editable icon icon-tag">
+              Tags
             </label>
             <div>
               <TagInput
+                id="card-modal-tags"
                 tags={card.tags.map(tag => ourTags.find(t => tag === t.id))}
                 suggestions={ourTags}
                 onDelete={i => { removeTag(id, card.tags[i]); }}
