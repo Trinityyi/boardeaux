@@ -12,6 +12,7 @@ describe('<Column/>', () => {
         id='1'
         cards={cards}
         title='Cool things'
+        tags={{}}
       />
     );
     wrapper = utils.container;

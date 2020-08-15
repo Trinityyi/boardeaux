@@ -7,10 +7,17 @@
   background: #FDFDFD;
   line-height: 1.5;
 
+  .card-tag-wrapper {
+    &:empty {
+      display: none;
+    }
+  }
+
   &:after {
     color: transparent;
     position: absolute;
     right: 8px;
+    top: 8px;
     content: '\f160'; // edit-2
     font-family: "Feather" !important;
     font-weight: 400;
