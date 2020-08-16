@@ -8,6 +8,7 @@
     "@testing-library/react": "^10.4.8",
     "@testing-library/user-event": "^7.2.1",
     "hast-util-to-html": "^7.1.1",
+    "idb": "^5.0.4",
     "mdast-util-to-hast": "^9.1.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
