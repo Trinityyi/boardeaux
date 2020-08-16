@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import actions from '../store/actions';
 import Column from './Column';
+import { connectIdb } from '../storage';
 
-const { createCard, createColumn, createTag } = actions;
+const { createCard, createColumn, createTag, setIndexedDbEnabled } = actions;
 
 const MainArea = ({
   cards,
@@ -13,7 +14,8 @@ const MainArea = ({
   tags,
   createCard,
   createColumn,
-  createTag
+  createTag,
+  setIndexedDbEnabled
 }) => {
   useEffect(() => {
     const mdTest = [
@@ -51,6 +53,11 @@ const MainArea = ({
     createTag({ name: 'Sri Lanka' });
     createTag({ name: 'Thailand' });
   }, [createCard, createColumn, createTag]);
+
+  useEffect(() => {
+    connectIdb(setIndexedDbEnabled);
+  }, [setIndexedDbEnabled]);
+
   return (
     <main>
       <div className="main-area-content">
@@ -90,6 +97,7 @@ const mapDispatchToProps = dispatch => {
     createCard: bindActionCreators(createCard, dispatch),
     createColumn: bindActionCreators(createColumn, dispatch),
     createTag: bindActionCreators(createTag, dispatch),
+    setIndexedDbEnabled: bindActionCreators(setIndexedDbEnabled, dispatch)
   };
 };
 
