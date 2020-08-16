@@ -3,14 +3,17 @@ export const initialState = {
   isMainMenuOpen: false,
   hoveredCardId: null,
   hoveredCardState: false,
-  draggedCard: null
+  draggedCard: null,
+  indexedDbEnabled: false,
+  db: null
 };
 
 export const actionTypes = {
   SET_CARD_MODAL_ID: 'SET_CARD_MODAL_ID',
   SET_MAIN_MENU_OPEN: 'SET_MAIN_MENU_OPEN',
   SET_HOVERED_CARD: 'SET_HOVERED_CARD',
-  SET_DRAGGED_CARD: 'SET_DRAGGED_CARD'
+  SET_DRAGGED_CARD: 'SET_DRAGGED_CARD',
+  SET_INDEXED_DB_ENABLED: 'SET_INDEXED_DB_ENABLED'
 };
 
 const reducer = (state = initialState, action) => {
@@ -35,6 +38,12 @@ const reducer = (state = initialState, action) => {
     return {
       ...state,
       draggedCard: action.cardData
+    };
+  case actionTypes.SET_INDEXED_DB_ENABLED:
+    return {
+      ...state,
+      indexedDbEnabled: action.indexedDbEnabled,
+      db: action.db || null
     };
   default:
     return state;
@@ -74,6 +83,13 @@ export const actions = {
       cardData
     };
   },
+  setIndexedDbEnabled: (indexedDbEnabled, db) => {
+    return {
+      type: actionTypes.SET_INDEXED_DB_ENABLED,
+      indexedDbEnabled,
+      db
+    };
+  }
 };
 
 export default reducer;
