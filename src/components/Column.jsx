@@ -79,6 +79,7 @@ const Column = ({
         name={`btn-${id}`}
         onSubmit={cardTitle => createCard({ title: cardTitle }, id)}
         buttonText="Add a card"
+        submitText="Add Card"
         wrapperClassName="column-action-add"
         buttonClassName="btn-column-add"
         inputClassName="input-column-add"

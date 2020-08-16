@@ -14,6 +14,7 @@ const AddButton = ({
   defaultValue = '',
   onSubmit,
   buttonText,
+  submitText,
   wrapperClassName = '',
   buttonClassName = '',
   inputClassName = ''
@@ -50,7 +51,7 @@ const AddButton = ({
             id={id}
             defaultValue={defaultValue}
             autoFocus
-            placeholder="Add a card"
+            placeholder={buttonText}
             onKeyPress={e => {
               if (e.charCode === 13) handleInputSubmit(false);
             }}
@@ -59,7 +60,7 @@ const AddButton = ({
             className="btn btn-confirm btn-add-submit"
             onClick={() => handleInputSubmit(false)}
           >
-            Add Card
+            {submitText}
           </button>
           <button
             className="btn btn-add-cancel icon icon-x"
@@ -84,6 +85,7 @@ AddButton.propTypes = {
   defaultValue: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   buttonText: PropTypes.string.isRequired,
+  submitText: PropTypes.string.isRequired,
   wrapperClassName: PropTypes.string,
   buttonClassName: PropTypes.string,
   inputClassName: PropTypes.string,
