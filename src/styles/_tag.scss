@@ -8,8 +8,8 @@
   border-radius: 2em;
   background: #6a737d;
   color: #fff;
+  margin-right: 8px;
   
-
   &.closable {
     padding: 2px 28px 2px 8px;
     cursor: pointer;
@@ -30,9 +30,5 @@
     &:hover:before {
       background: rgba(0, 0, 0, 0.66);
     }
-  }
-
-  + .tag {
-    margin-left: 8px;
   }
 }

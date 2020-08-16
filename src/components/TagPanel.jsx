@@ -1,19 +1,53 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AddButton from './AddButton';
 import Tag, { TagPropShape } from './Tag';
+import Popover from './Popover';
 import actions from '../store/actions';
 
-const { createTag } = actions;
+const { createTag, setTagColors, setTagName } = actions;
 
-const TagPanel = ({ tags, createTag }) => (
+const TagPanel = ({
+  tags,
+  createTag,
+  setTagColors,
+  setTagName
+}) => (
   <div
     className="tag-panel"
   >
     <h4>Tags</h4>
-    {tags.map(tag => <Tag tag={tag} key={tag.id}/>)}
+    {tags.map(tag =>
+      <Popover
+        key={tag.id}
+        id={`tag-popover-${tag.id}`}
+        popoverContent={(
+          <>
+            <label htmlFor={`tag-name-input-${tag.id}`}>Name:</label>
+            <input
+              type="name"
+              id={`tag-name-input-${tag.id}`}
+              name={`tag-name-input-${tag.id}`}
+              value={tag.name}
+              onChange={e => setTagName(tag.id, e.target.value )}
+            />
+            <label htmlFor={`tag-bg-input-${tag.id}`}>Color:</label>
+            <input
+              type="color"
+              id={`tag-bg-input-${tag.id}`}
+              name={`tag-bg-input-${tag.id}`}
+              value={tag.backgroundColor}
+              data-background-color={tag.backgroundColor}
+              onChange={e => setTagColors(tag.id, e.target.value )}
+            />
+          </>
+        )}
+      >
+        <Tag tag={tag} />
+      </Popover>
+    )}
     <AddButton
       id="btn-add-tag"
       name="btn-add-tag"
@@ -41,6 +75,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     createTag: bindActionCreators(createTag, dispatch),
+    setTagColors: bindActionCreators(setTagColors, dispatch),
+    setTagName: bindActionCreators(setTagName, dispatch),
   };
 };
 

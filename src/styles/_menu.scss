@@ -109,6 +109,24 @@
     margin: 4px 0;
     border-radius: 2px;
     padding: 4px 8px;
+    cursor: pointer;
+
+    &:after {
+      color: transparent;
+      position: absolute;
+      right: 4px;
+      top: 4px;
+      content: '\f160'; // edit-2
+      font-family: "Feather" !important;
+      font-weight: 400;
+      transition: 0.3s ease all;
+    }
+  
+    &:hover {
+      &:after {
+        color: inherit;
+      }
+    }
   }
 
 }
