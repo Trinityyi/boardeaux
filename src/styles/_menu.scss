@@ -68,3 +68,47 @@
     }
   }
 }
+
+.tag-panel {
+  border-top: 1px solid #e0e0e0;
+
+  h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1;
+  }
+
+  .btn-tag-panel-add {
+    position: relative;
+    border-radius: 4px;
+    padding: 8px 8px 8px 32px;
+    width: 100%;
+    font-size: 1rem;
+    text-align: left;
+
+    &:before {
+      position: absolute;
+      left: 6px;
+      top: 10px;
+      font-size: 20px;
+    }
+  }
+
+  .tag-panel-add {
+    padding: 0 8px;
+    margin: 0;
+    background: hsl(220, 12%, 99%);
+    width: 100%;
+    line-height: 1;
+    height: 40px;
+  }
+
+  .tag {
+    display: block;
+    margin: 4px 0;
+    border-radius: 2px;
+    padding: 4px 8px;
+  }
+
+}
