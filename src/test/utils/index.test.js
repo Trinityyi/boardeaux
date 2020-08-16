@@ -1,4 +1,9 @@
-import { insertAt, moveTo } from '../../utils';
+import {
+  insertAt,
+  moveTo,
+  determineColor,
+  randomHexColorCode
+} from '../../utils';
 
 const arr = ['a', 'b', 'c', 'd'];
 
@@ -39,5 +44,23 @@ describe('moveTo', () => {
 
   it('moves correctly when index < length', () => {
     expect(moveTo(arr[0], arr, 2)).toEqual(['b', 'a', 'c', 'd']);
+  });
+});
+
+describe('determineColor', () => {
+  it('returns the correct value for a dark background', () => {
+    expect(determineColor('#000')).toBe('#fff');
+  });
+
+  it('returns the correct value for a light background', () => {
+    expect(determineColor('#fff')).toBe('#000');
+  });
+});
+
+describe('randomHexColorCode', () => {
+  it('returns a valid hex color code', () => {
+    const hex = randomHexColorCode();
+    expect(hex.startsWith('#')).toBe(true);
+    expect(hex.length).toBe(7);
   });
 });
