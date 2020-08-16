@@ -1,0 +1,35 @@
+.popover-wrapper {
+
+  .popover-content-container {
+    background: #fff;
+    border-radius: 4px;
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  label {
+    display: block;
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+
+  input {
+    display: block;
+    width: 100%;
+
+    &[type="color"] {
+      position: relative;
+      height: 32px;
+      width: 60%;
+
+      &:before {
+        position: absolute;
+        left: calc(100% + 8px);
+        top: 4px;
+        content: attr(data-background-color);
+      }
+    }
+  }
+}
