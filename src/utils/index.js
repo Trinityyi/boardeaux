@@ -40,3 +40,28 @@ export const moveTo = (el, arr, i) => {
     return [...acc, v];
   }, []);
 };
+
+/**
+ * Calculate the foreground color depending on the given background color.
+ * @param {string} hex - The hex value to use for calculations.
+ */
+export const determineColor = hex => {
+  let h = hex.slice(1);
+  if (h.length === 3) h = [...h].map(x => x + x).join('');
+  h = parseInt(h, 16);
+  const [red, green, blue] = [
+    h >>> 16,
+    (h & 0x00ff00) >>> 8,
+    (h & 0x0000ff) >>> 0
+  ];
+  if((red * 0.299 + green * 0.587 + blue * 0.114) > 186) return '#000';
+  return '#fff';
+};
+
+/**
+ * Returns a random hex color code.
+ */
+export const randomHexColorCode = () => {
+  let n = (Math.random() * 0xfffff * 1000000).toString(16);
+  return '#' + n.slice(0, 6);
+};

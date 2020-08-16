@@ -11,7 +11,7 @@ describe('<Card/>', () => {
   beforeEach(() => {
     const utils = renderDndConnected(
       <Card
-        card={{ id: '1', title: 'Card', priority: 2 }}
+        card={{ id: '1', title: 'Card', priority: 2, tags: [] }}
         columnId={'a'}
         index={0}
         setCardModalId={noop}

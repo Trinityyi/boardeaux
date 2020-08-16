@@ -17,7 +17,8 @@ describe('<CardModalDialog/>', () => {
             'my-card': {
               id: 'my-card',
               title: 'My card',
-              description: 'This is a description'
+              description: 'This is a description',
+              tags: []
             }
           }
         }

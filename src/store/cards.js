@@ -10,7 +10,9 @@ export const actionTypes = {
   SET_CARD_TITLE: 'SET_CARD_TITLE',
   SET_CARD_DESCRIPTION: 'SET_CARD_DESCRIPTION',
   IMPORT_CARDS: 'IMPORT_CARDS',
-  SET_PRIORITY: 'SET_PRIORITY'
+  SET_PRIORITY: 'SET_PRIORITY',
+  ADD_TAG: 'ADD_TAG',
+  REMOVE_TAG: 'REMOVE_TAG'
 };
 
 const reducer = (state = initialState, action) => {
@@ -46,6 +48,26 @@ const reducer = (state = initialState, action) => {
         priority: action.priority
       }
     };
+  case actionTypes.ADD_TAG:
+    return {
+      ...state,
+      [action.id]: {
+        ...state[action.id],
+        tags: [
+          ...state[action.id].tags,
+          action.tag
+        ]
+      }
+    };
+  case actionTypes.REMOVE_TAG:
+    return {
+      ...state,
+      [action.id]: {
+        ...state[action.id],
+        tags: state[action.id].tags
+          .filter(x => x !== action.tag)
+      }
+    };
   default:
     return state;
   }
@@ -53,7 +75,7 @@ const reducer = (state = initialState, action) => {
 
 export const actions = {
   createCard: (data, columnId) => dispatch => {
-    const { title, description } = data;
+    const { title, description, tags } = data;
     const id = uuid();
     dispatch({
       type: actionTypes.CREATE_CARD,
@@ -61,7 +83,8 @@ export const actions = {
         id,
         title,
         description: description ? description : '',
-        priority: 2
+        priority: 2,
+        tags: tags ? tags : []
       },
       id
     });
@@ -94,6 +117,20 @@ export const actions = {
       id
     };
   },
+  addTag: (id, tag) => {
+    return {
+      type: actionTypes.ADD_TAG,
+      tag,
+      id
+    };
+  },
+  removeTag: (id, tag) => {
+    return {
+      type: actionTypes.REMOVE_TAG,
+      tag,
+      id
+    };
+  }
 };
 
 export default reducer;

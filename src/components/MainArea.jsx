@@ -5,13 +5,15 @@ import PropTypes from 'prop-types';
 import actions from '../store/actions';
 import Column from './Column';
 
-const { createCard, createColumn } = actions;
+const { createCard, createColumn, createTag } = actions;
 
 const MainArea = ({
   cards,
-  createCard,
   columns,
-  createColumn
+  tags,
+  createCard,
+  createColumn,
+  createTag
 }) => {
   useEffect(() => {
     const mdTest = [
@@ -41,7 +43,14 @@ const MainArea = ({
     createCard({ title: 'Start' }, columnIds[1]);
     createCard({ title: 'Stop' }, columnIds[1]);
     createCard({ title: 'Tada' }, columnIds[2]);
-  }, [createCard, createColumn]);
+    createTag({ name: 'USA' });
+    createTag({ name: 'Germany' });
+    createTag({ name: 'Georgia' });
+    createTag({ name: 'Austria' });
+    createTag({ name: 'Costa Rica' });
+    createTag({ name: 'Sri Lanka' });
+    createTag({ name: 'Thailand' });
+  }, [createCard, createColumn, createTag]);
   return (
     <main>
       <div className="main-area-content">
@@ -51,6 +60,7 @@ const MainArea = ({
             key={id}
             title={title}
             cards={cardIds.map(cId => cards[cId])}
+            tags={tags}
           />
         ))}
       </div>
@@ -61,21 +71,25 @@ const MainArea = ({
 MainArea.propTypes = {
   cards: PropTypes.shape({}).isRequired,
   columns: PropTypes.shape({}).isRequired,
+  tags: PropTypes.shape({}).isRequired,
   createCard: PropTypes.func.isRequired,
-  createColumn: PropTypes.func.isRequired
+  createColumn: PropTypes.func.isRequired,
+  createTag: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
   return {
     cards: state.cards,
-    columns: state.columns
+    columns: state.columns,
+    tags: state.tags
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     createCard: bindActionCreators(createCard, dispatch),
-    createColumn: bindActionCreators(createColumn, dispatch)
+    createColumn: bindActionCreators(createColumn, dispatch),
+    createTag: bindActionCreators(createTag, dispatch),
   };
 };
 

@@ -15,6 +15,7 @@ const EditableText = ({
   id,
   className = '',
   name,
+  placeholder = '',
   value,
   onChange,
   isDefaultEditable = false,
@@ -42,6 +43,7 @@ const EditableText = ({
             id={id}
             onChange={e => onChange(e.target.value)}
             value={value}
+            placeholder={placeholder}
           />
         ) : (
           <span

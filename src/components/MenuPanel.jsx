@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import TagPanel from './TagPanel';
 import combineClassNames from '@chalarangelo/combine-class-names';
 import actions from '../store/actions';
 import { exportToJSON, importFromJSON } from '../storage';
@@ -39,6 +40,7 @@ const MenuPanel = ({
         >
           Load from JSON
         </button>
+        <TagPanel />
       </div>
     </div>
   );

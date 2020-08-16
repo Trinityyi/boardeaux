@@ -23,6 +23,7 @@ const Column = ({
   id,
   cards,
   title,
+  tags,
   hoveredCardId = null,
   hoveredCardState = false,
   draggedCard = null,
@@ -61,7 +62,7 @@ const Column = ({
         {cards.map((card, i) => (
           <Card
             key={card.id}
-            card={card}
+            card={{ ...card, tags: card.tags.map(t => tags[t]) }}
             columnId={id}
             index={i}
             previewHeight={draggedCard !== null ? draggedCard.height : 0}
@@ -78,6 +79,7 @@ const Column = ({
         name={`btn-${id}`}
         onSubmit={cardTitle => createCard({ title: cardTitle }, id)}
         buttonText="Add a card"
+        submitText="Add Card"
         wrapperClassName="column-action-add"
         buttonClassName="btn-column-add"
         inputClassName="input-column-add"
@@ -92,6 +94,7 @@ Column.propTypes = {
     id: PropTypes.string.isRequired
   })).isRequired,
   title: PropTypes.string.isRequired,
+  tags: PropTypes.shape({}).isRequired,
   hoveredCardId: PropTypes.string,
   hoveredCardState: PropTypes.oneOfType([
     PropTypes.shape({

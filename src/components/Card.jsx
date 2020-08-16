@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import actions from '../store/actions';
 import combineClassNames from '@chalarangelo/combine-class-names';
 import { priorities } from '../shared';
+import Tag, { TagPropShape } from './Tag';
 
 const { setCardModalId, removeCardFromColumn } = actions;
 
@@ -13,7 +14,8 @@ const Card = ({
   card: {
     id,
     title,
-    priority
+    priority,
+    tags
   },
   columnId,
   index,
@@ -44,8 +46,9 @@ const Card = ({
       else if (clientOffsetY > hoverMiddleY)
         setIsHovered({ position: 'after', index: index + 1 });
     },
-    canDrop: item => item.sourceColumnId === columnId,
+    canDrop: item => item.sourceColumnId === columnId && item.index !== isHovered.index,
     collect: monitor => {
+      if (!ref.current) return;
       if (monitor.didDrop() || !isDragging) setIsHovered(false);
     },
     drop: item => {
@@ -89,6 +92,9 @@ const Card = ({
         onClick={() => setCardModalId(id)}
       >
         {title}
+        <div className="card-tag-wrapper">
+          {tags.map(tag => <Tag tag={tag} key={tag.id}/>)}
+        </div>
       </div>
       {
         isHovered && isHovered.position === 'after' &&
@@ -102,7 +108,8 @@ Card.propTypes = {
   card: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    priority: PropTypes.number.isRequired
+    priority: PropTypes.number.isRequired,
+    tags: PropTypes.arrayOf(TagPropShape).isRequired
   }),
   columnId: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,

@@ -5,18 +5,30 @@ import PropTypes from 'prop-types';
 import Modal from './Modal';
 import EditableText from './EditableText';
 import actions from '../store/actions';
+import TagInput from './TagInput';
 import combineClassNames from '@chalarangelo/combine-class-names';
 import { priorities } from '../shared';
+import { TagPropShape } from './Tag';
 
-const { setCardModalId, setCardTitle, setCardDescription, setCardPriority } = actions;
+const {
+  setCardModalId,
+  setCardTitle,
+  setCardDescription,
+  setCardPriority,
+  addTag,
+  removeTag
+} = actions;
 
 const CardModalDialog = ({
   id,
   card,
+  tags,
   setCardModalId,
   setCardTitle,
   setCardDescription,
-  setCardPriority
+  setCardPriority,
+  addTag,
+  removeTag
 }) => {
   const myRef = React.createRef();
   const isOpen = Boolean(id);
@@ -40,6 +52,7 @@ const CardModalDialog = ({
                 value={card.title}
                 onChange={value => setCardTitle(id, value)}
                 cRef={myRef}
+                placeholder="Add a title"
               />
             </h2>
           </div>
@@ -51,6 +64,7 @@ const CardModalDialog = ({
               id="card-modal-description"
               className="modal-card-description"
               name="card-modal-description"
+              placeholder="Add a description"
               value={card.description}
               onChange={value => setCardDescription(id, value)}
               isDefaultEditable={!card.description.length}
@@ -60,11 +74,20 @@ const CardModalDialog = ({
             />
           </div>
           <div className="modal-card-section">
-            <label htmlFor="card-modal-labels" className="for-editable icon icon-tag">
-              Labels
+            <label htmlFor="card-modal-tags" className="for-editable icon icon-tag">
+              Tags
             </label>
             <div>
-              <span className="task-label">TODO</span>
+              <TagInput
+                id="card-modal-tags"
+                tags={card.tags.map(tag => tags.find(t => tag === t.id))}
+                suggestions={tags}
+                onDelete={i => { removeTag(id, card.tags[i]); }}
+                onAddition={tag => {
+                  if (!card.tags.some(t => tag.id === t))
+                    addTag(id, tag.id);
+                }}
+              />
             </div>
           </div>
           <div className="modal-card-section">
@@ -100,16 +123,20 @@ CardModalDialog.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   }),
+  tags: PropTypes.arrayOf(TagPropShape).isRequired,
   setCardModalId: PropTypes.func.isRequired,
   setCardTitle: PropTypes.func.isRequired,
   setCardDescription: PropTypes.func.isRequired,
-  setCardPriority: PropTypes.func.isRequired
+  setCardPriority: PropTypes.func.isRequired,
+  addTag: PropTypes.func.isRequired,
+  removeTag: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
   return {
     id: state.interface.cardModalId,
-    card: state.cards[state.interface.cardModalId]
+    card: state.cards[state.interface.cardModalId],
+    tags: Object.keys(state.tags).map(key => state.tags[key])
   };
 };
 
@@ -118,7 +145,9 @@ const mapDispatchToProps = dispatch => {
     setCardModalId: bindActionCreators(setCardModalId, dispatch),
     setCardTitle: bindActionCreators(setCardTitle, dispatch),
     setCardDescription: bindActionCreators(setCardDescription, dispatch),
-    setCardPriority: bindActionCreators(setCardPriority, dispatch)
+    setCardPriority: bindActionCreators(setCardPriority, dispatch),
+    addTag: bindActionCreators(addTag, dispatch),
+    removeTag: bindActionCreators(removeTag, dispatch)
   };
 };
 
