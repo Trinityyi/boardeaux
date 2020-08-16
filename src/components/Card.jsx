@@ -46,7 +46,7 @@ const Card = ({
       else if (clientOffsetY > hoverMiddleY)
         setIsHovered({ position: 'after', index: index + 1 });
     },
-    canDrop: item => item.sourceColumnId === columnId,
+    canDrop: item => item.sourceColumnId === columnId && item.index !== isHovered.index,
     collect: monitor => {
       if (!ref.current) return;
       if (monitor.didDrop() || !isDragging) setIsHovered(false);
