@@ -6,7 +6,6 @@ export const initialState = {};
 export const actionTypes = {
   CREATE_COLUMN: 'CREATE_COLUMN',
   ADD_CARD_TO_COLUMN: 'ADD_CARD_TO_COLUMN',
-  IMPORT_COLUMNS: 'IMPORT_COLUMNS',
   REMOVE_CARD_FROM_COLUMN: 'REMOVE_CARD_FROM_COLUMN',
   MOVE_CARD_INSIDE_COLUMN: 'MOVE_CARD_INSIDE_COLUMN'
 };
@@ -45,8 +44,6 @@ const reducer = (state = initialState, action) => {
         )
       }
     };
-  case actionTypes.IMPORT_COLUMNS:
-    return action.data;
   case actionTypes.REMOVE_CARD_FROM_COLUMN:
     return {
       ...state,
@@ -78,12 +75,6 @@ export const actions = {
       cardId,
       columnId,
       index
-    };
-  },
-  importColumns: data => {
-    return {
-      type: actionTypes.IMPORT_COLUMNS,
-      data
     };
   },
   removeCardFromColumn: (cardId, columnId) => {
