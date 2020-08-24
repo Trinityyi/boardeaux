@@ -1,11 +1,4 @@
-import { store } from '../store/reducer';
-import actions from '../store/actions';
-import { initialState as boardInitialState } from '../store/board';
-import { initialState as columnsInitialState } from '../store/columns';
-import { initialState as cardsInitialState } from '../store/cards';
-import { initialState as tagsInitialState } from '../store/tags';
-
-const { importCards, importColumns, importBoard, importTags } = actions;
+import rootReducer, { store } from '../store/reducer';
 
 export const exportToJSON = () => {
   const { board, cards, columns, tags } = store.getState();
@@ -22,14 +15,18 @@ export const importFromJSON = fileList => {
   const reader = new FileReader();
   reader.addEventListener('load', event => {
     const { board, cards, columns, tags } = JSON.parse(event.target.result);
-    store.dispatch(importBoard(boardInitialState));
-    store.dispatch(importColumns(columnsInitialState));
-    store.dispatch(importCards(cardsInitialState));
-    store.dispatch(importTags(tagsInitialState));
-    store.dispatch(importTags(tags));
-    store.dispatch(importCards(cards));
-    store.dispatch(importColumns(columns));
-    store.dispatch(importBoard(board));
-  });
+    store.replaceReducer(state => {
+      return {
+        interface: state.interface,
+        board,
+        cards,
+        columns,
+        tags
+      };
+    });
+    store.dispatch({ type: 'IMPORT_FROM_JSON' });
+    store.replaceReducer(rootReducer);
+    document.getElementById('main-menu-load-json').value = '';
+  }, { once: true });
   reader.readAsText(file);
 };
