@@ -5,8 +5,7 @@ export const initialState = {
 };
 
 export const actionTypes = {
-  SET_BOARD_TITLE: 'SET_BOARD_TITLE',
-  IMPORT_BOARD: 'IMPORT_BOARD'
+  SET_BOARD_TITLE: 'SET_BOARD_TITLE'
 };
 
 const reducer = (state = initialState, action) => {
@@ -16,8 +15,6 @@ const reducer = (state = initialState, action) => {
       ...state,
       title: action.title
     };
-  case actionTypes.IMPORT_BOARD:
-    return action.data;
   default:
     return state;
   }
@@ -28,12 +25,6 @@ export const actions = {
     return {
       type: actionTypes.SET_BOARD_TITLE,
       title
-    };
-  },
-  importBoard: data => {
-    return {
-      type: actionTypes.IMPORT_BOARD,
-      data
     };
   }
 };

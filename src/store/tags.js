@@ -6,9 +6,7 @@ export const initialState = {};
 export const actionTypes = {
   CREATE_TAG: 'CREATE_TAG',
   SET_TAG_COLORS: 'SET_TAG_COLORS',
-  SET_TAG_NAME: 'SET_TAG_NAME',
-  IMPORT_TAGS: 'IMPORT_TAGS'
-
+  SET_TAG_NAME: 'SET_TAG_NAME'
 };
 
 const reducer = (state = initialState, action) => {
@@ -35,8 +33,6 @@ const reducer = (state = initialState, action) => {
         name: action.name
       }
     };
-  case actionTypes.IMPORT_TAGS:
-    return action.data;
   default:
     return state;
   }
@@ -68,13 +64,7 @@ export const actions = {
       name,
       id
     };
-  },
-  importTags: data => {
-    return {
-      type: actionTypes.IMPORT_TAGS,
-      data
-    };
-  },
+  }
 };
 
 export default reducer;
