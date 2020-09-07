@@ -7,6 +7,8 @@ import Column from './Column';
 
 const { createCard, createColumn, createTag } = actions;
 
+const init = false;
+
 const MainArea = ({
   cards,
   columns,
@@ -16,6 +18,7 @@ const MainArea = ({
   createTag
 }) => {
   useEffect(() => {
+    if(!init) return;
     const mdTest = [
       'Testing markdown.',
       'This has **bold text**.',
