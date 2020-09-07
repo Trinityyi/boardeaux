@@ -1,4 +1,5 @@
-import rootReducer, { store } from '../store/reducer';
+import persistedReducer, { store, persistor, rootPersistConfig } from '../store/reducer';
+import { persistReducer } from 'redux-persist';
 
 export const exportToJSON = () => {
   const { board, cards, columns, tags } = store.getState();
@@ -13,9 +14,10 @@ export const importFromJSON = fileList => {
   if (!fileList.length || fileList[0].type.indexOf('json') === -1) return;
   const file = fileList[0];
   const reader = new FileReader();
+  persistor.pause();
   reader.addEventListener('load', event => {
     const { board, cards, columns, tags } = JSON.parse(event.target.result);
-    store.replaceReducer(state => {
+    store.replaceReducer(persistReducer(rootPersistConfig, state => {
       return {
         interface: state.interface,
         board,
@@ -23,9 +25,10 @@ export const importFromJSON = fileList => {
         columns,
         tags
       };
-    });
-    store.dispatch({ type: 'IMPORT_FROM_JSON' });
-    store.replaceReducer(rootReducer);
+    }));
+    persistor.dispatch({ type: 'IMPORT_FROM_JSON' });
+    store.replaceReducer(persistedReducer);
+    persistor.persist();
     document.getElementById('main-menu-load-json').value = '';
   }, { once: true });
   reader.readAsText(file);
