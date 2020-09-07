@@ -59,7 +59,7 @@ const Column = ({
         ref={drop}
         style={{ height: isEmptyHovered ? draggedCard.height : '' }}
       >
-        {cards.map((card, i) => (
+        {cards.filter(card => !card.archived).map((card, i) => (
           <Card
             key={card.id}
             card={{ ...card, tags: card.tags.map(t => tags[t]) }}
