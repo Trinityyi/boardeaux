@@ -16,7 +16,10 @@ const {
   setCardDescription,
   setCardPriority,
   addTag,
-  removeTag
+  removeTag,
+  archiveCard,
+  restoreCard,
+  deleteCard
 } = actions;
 
 const CardModalDialog = ({
@@ -28,7 +31,10 @@ const CardModalDialog = ({
   setCardDescription,
   setCardPriority,
   addTag,
-  removeTag
+  removeTag,
+  archiveCard,
+  restoreCard,
+  deleteCard
 }) => {
   const myRef = React.createRef();
   const isOpen = Boolean(id);
@@ -106,6 +112,41 @@ const CardModalDialog = ({
                 ))}
             </select>
           </div>
+
+          <div className="modal-card-section">
+            <label className="for-editable icon icon-briefcase">
+            Actions
+            </label>
+            {!card.archived ? (
+              <button
+                className="btn icon icon-archive"
+                onClick={() => archiveCard(id)}
+              >
+              Archive
+              </button>
+            ) : (
+              <>
+                <button
+                  className="btn icon icon-rotate-ccw"
+                  onClick={() => restoreCard(id)}
+                >
+                Restore
+                </button>
+                <button
+                  className="btn icon icon-trash"
+                  onClick={() => {
+                    // eslint-disable-next-line no-restricted-globals
+                    const sure = confirm('Are you sure?');
+                    if(sure) deleteCard(id);
+                  }}
+                >
+                  Delete
+                </button>
+              </>
+            )
+            }
+          </div>
+
           <div className="modal-card-section">
             <label className="icon icon-credit-card id-label">
               Card ID: {card.id}
@@ -129,7 +170,10 @@ CardModalDialog.propTypes = {
   setCardDescription: PropTypes.func.isRequired,
   setCardPriority: PropTypes.func.isRequired,
   addTag: PropTypes.func.isRequired,
-  removeTag: PropTypes.func.isRequired
+  removeTag: PropTypes.func.isRequired,
+  archiveCard: PropTypes.func.isRequired,
+  restoreCard: PropTypes.func.isRequired,
+  deleteCard: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -147,7 +191,10 @@ const mapDispatchToProps = dispatch => {
     setCardDescription: bindActionCreators(setCardDescription, dispatch),
     setCardPriority: bindActionCreators(setCardPriority, dispatch),
     addTag: bindActionCreators(addTag, dispatch),
-    removeTag: bindActionCreators(removeTag, dispatch)
+    removeTag: bindActionCreators(removeTag, dispatch),
+    archiveCard: bindActionCreators(archiveCard, dispatch),
+    restoreCard: bindActionCreators(restoreCard, dispatch),
+    deleteCard: bindActionCreators(deleteCard, dispatch),
   };
 };
 
