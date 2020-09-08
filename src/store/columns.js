@@ -1,8 +1,10 @@
 import { v4 as uuid } from 'uuid';
 import { insertAt, moveTo } from '../utils';
 import { actions as activityLogActions } from './activityLog';
+import { actions as boardActions } from './board';
 
 const { logCardActivity } = activityLogActions;
+const { addColumnToBoard } = boardActions;
 
 export const initialState = {};
 
@@ -62,15 +64,17 @@ const reducer = (state = initialState, action) => {
 };
 
 export const actions = {
-  createColumn: data => {
+  createColumn: data => dispatch => {
     const id = uuid();
     data.id = id;
     data.cardIds = [];
-    return {
+    dispatch({
       type: actionTypes.CREATE_COLUMN,
       data,
       id
-    };
+    });
+    dispatch(addColumnToBoard(id));
+    return { id }; // Leave as-is for demo init, change later
   },
   addCardToColumn: (cardId, columnId, index = -1) => (dispatch, getState) => {
     const { title: cardTitle } = getState().cards[cardId];
