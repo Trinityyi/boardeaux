@@ -34,12 +34,14 @@ const Column = ({
   moveCardInsideColumn
 }) => {
   const [{ isOver }, drop] = useDrop({
-    accept: ['card'],
-    canDrop: item => item.sourceColumnId !== id,
+    accept: ['card', 'column'],
+    canDrop: item => item.type === 'card' && item.sourceColumnId !== id,
     drop: (item, monitor) => {
-      if (!monitor.canDrop()) return;
-      const hasBeenHandled = monitor.didDrop() && monitor.getDropResult().handled;
-      if (!hasBeenHandled) addCardToColumn(item.id, id, hoveredCardState.index);
+      if(item.type === 'card') {
+        if (!monitor.canDrop()) return;
+        const hasBeenHandled = monitor.didDrop() && monitor.getDropResult().handled;
+        if (!hasBeenHandled) addCardToColumn(item.id, id, hoveredCardState.index);
+      }
     },
     collect: monitor => ({
       isOver: monitor.isOver()
