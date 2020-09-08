@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { useDrop } from 'react-dnd';
+import { useDrop, useDrag } from 'react-dnd';
 import PropTypes from 'prop-types';
 import Card from './Card';
 import AddButton from './AddButton';
@@ -21,6 +21,7 @@ const {
  */
 const Column = ({
   id,
+  index,
   cards,
   title,
   tags,
@@ -31,67 +32,128 @@ const Column = ({
   addCardToColumn,
   setHoveredCard,
   setDraggedCard,
-  moveCardInsideColumn
+  moveCardInsideColumn,
+  previewHeight = 0,
+  isHovered = false,
+  setIsHovered,
+  isDragging = false,
+  setDraggedColumn,
+  handleDrop
 }) => {
+  const ref = useRef(null);
+
   const [{ isOver }, drop] = useDrop({
     accept: ['card', 'column'],
-    canDrop: item => item.type === 'card' && item.sourceColumnId !== id,
+    canDrop: item => (item.type === 'column' && item.index !== isHovered.index) || (item.type === 'card' && item.sourceColumnId !== id),
+    hover: (item, monitor) => {
+      if (!ref.current || item.type !== 'column' || item.index === index) return;
+
+      const { left, right } = ref.current.querySelector('.column').getBoundingClientRect();
+      const hoverMiddleX = (right - left) / 2 + left;
+      const clientOffsetX = monitor.getClientOffset().x;
+
+      if (clientOffsetX < hoverMiddleX)
+        setIsHovered({ position: 'before', index });
+      else if (clientOffsetX > hoverMiddleX)
+        setIsHovered({ position: 'after', index: index + 1 });
+
+    },
     drop: (item, monitor) => {
       if(item.type === 'card') {
         if (!monitor.canDrop()) return;
         const hasBeenHandled = monitor.didDrop() && monitor.getDropResult().handled;
         if (!hasBeenHandled) addCardToColumn(item.id, id, hoveredCardState.index);
       }
+      if(item.type === 'column' && item.index !== isHovered.index) {
+        handleDrop(item.id, isHovered.index);
+        setIsHovered(false);
+        return { handled: true };
+      }
     },
-    collect: monitor => ({
-      isOver: monitor.isOver()
-    }),
+    collect: monitor => {
+      if (!ref.current) return { isOver: monitor.isOver() };
+      if (monitor.didDrop() || !isDragging) setIsHovered(false);
+      return { isOver: monitor.isOver() };
+    },
   });
+
+  const [style, drag] = useDrag({
+    item: { id, type: 'column', index },
+    collect: monitor => ({
+      opacity: monitor.isDragging() ? 0 : 1,
+      display: monitor.isDragging() ? 'none' : 'block'
+    }),
+    begin: () => {
+      if (!ref.current) return;
+      const { height } = ref.current.getBoundingClientRect();
+      setDraggedColumn({ id, height });
+    },
+    end: () => {
+      setDraggedColumn(null);
+    }
+  });
+
+  drag(drop(ref));
 
   const isEmptyHovered = !cards.length && isOver && draggedCard !== null;
 
   return (
-    <div className="column">
-      <div className="column-title">
-        <h3>{title}</h3>
-        <button className="btn btn-column-menu icon icon-more-horizontal" />
+    <div
+      className={combineClassNames`column-wrapper ${isHovered ? 'with-previews' : ''}`}
+      ref={ref}
+      style={{ ...style, display: isHovered ? 'flex' : style.display }}
+    >
+      {
+        isHovered && isHovered.position === 'before' &&
+        <div className="column-preview" style={{ height: previewHeight }}/>
+      }
+      <div className="column">
+        <div className="column-title">
+          <h3>{title}</h3>
+          <button className="btn btn-column-menu icon icon-more-horizontal" />
+        </div>
+        <ul
+          className={combineClassNames`column-content ${isEmptyHovered ? 'hover' : ''}`}
+          ref={ref}
+          style={{ height: isEmptyHovered ? draggedCard.height : '' }}
+        >
+          {cards.filter(card => !card.archived).map((card, i) => (
+            <Card
+              key={card.id}
+              card={{ ...card, tags: card.tags.map(t => tags[t]) }}
+              columnId={id}
+              index={i}
+              previewHeight={draggedCard !== null ? draggedCard.height : 0}
+              isHovered={hoveredCardId === card.id ? hoveredCardState : false}
+              setIsHovered={hovered => setHoveredCard(card.id, hovered)}
+              setDraggedCard={setDraggedCard}
+              isDragging={draggedCard !== null}
+              handleDrop={moveCardInsideColumn}
+            />
+          ))}
+        </ul>
+        <AddButton
+          id={`btn-${id}`}
+          name={`btn-${id}`}
+          onSubmit={cardTitle => createCard({ title: cardTitle }, id)}
+          buttonText="Add a card"
+          submitText="Add Card"
+          wrapperClassName="column-action-add"
+          buttonClassName="btn-column-add"
+          inputClassName="input-column-add"
+        />
       </div>
-      <ul
-        className={combineClassNames`column-content ${isEmptyHovered ? 'hover' : ''}`}
-        ref={drop}
-        style={{ height: isEmptyHovered ? draggedCard.height : '' }}
-      >
-        {cards.filter(card => !card.archived).map((card, i) => (
-          <Card
-            key={card.id}
-            card={{ ...card, tags: card.tags.map(t => tags[t]) }}
-            columnId={id}
-            index={i}
-            previewHeight={draggedCard !== null ? draggedCard.height : 0}
-            isHovered={hoveredCardId === card.id ? hoveredCardState : false}
-            setIsHovered={hovered => setHoveredCard(card.id, hovered)}
-            setDraggedCard={setDraggedCard}
-            isDragging={draggedCard !== null}
-            handleDrop={moveCardInsideColumn}
-          />
-        ))}
-      </ul>
-      <AddButton
-        id={`btn-${id}`}
-        name={`btn-${id}`}
-        onSubmit={cardTitle => createCard({ title: cardTitle }, id)}
-        buttonText="Add a card"
-        submitText="Add Card"
-        wrapperClassName="column-action-add"
-        buttonClassName="btn-column-add"
-        inputClassName="input-column-add"
-      />
+      {
+        isHovered && isHovered.position === 'after' &&
+        <div className="column-preview" style={{ height: previewHeight }}/>
+      }
     </div>
   );
 };
 
 Column.propTypes = {
   id: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
   cards: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired
   })).isRequired,

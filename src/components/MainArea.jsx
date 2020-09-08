@@ -5,17 +5,31 @@ import PropTypes from 'prop-types';
 import actions from '../store/actions';
 import Column from './Column';
 
-const { createCard, createColumn, createTag } = actions;
+const {
+  createCard,
+  createColumn,
+  createTag,
+  setHoveredColumn,
+  setDraggedColumn,
+  moveColumnInsideBoard
+} = actions;
 
 const init = false;
 
 const MainArea = ({
   cards,
   columns,
+  boardColumns,
   tags,
   createCard,
   createColumn,
-  createTag
+  createTag,
+  setHoveredColumn,
+  setDraggedColumn,
+  hoveredColumnId,
+  draggedColumn,
+  hoveredColumnState,
+  moveColumnInsideBoard
 }) => {
   useEffect(() => {
     if(!init) return;
@@ -57,13 +71,20 @@ const MainArea = ({
   return (
     <main>
       <div className="main-area-content">
-        {Object.values(columns).map(({ id, title, cardIds }) => (
+        { boardColumns.map(id => columns[id]).map(({ id, title, cardIds }, i) => (
           <Column
             id={id}
             key={id}
+            index={i}
             title={title}
             cards={cardIds.map(cId => cards[cId])}
             tags={tags}
+            previewHeight={draggedColumn !== null ? draggedColumn.height : 0}
+            isHovered={hoveredColumnId === id ? hoveredColumnState : false}
+            setIsHovered={hovered => setHoveredColumn(id, hovered)}
+            setDraggedColumn={setDraggedColumn}
+            isDragging={draggedColumn !== null}
+            handleDrop={moveColumnInsideBoard}
           />
         ))}
       </div>
@@ -77,14 +98,23 @@ MainArea.propTypes = {
   tags: PropTypes.shape({}).isRequired,
   createCard: PropTypes.func.isRequired,
   createColumn: PropTypes.func.isRequired,
-  createTag: PropTypes.func.isRequired
+  createTag: PropTypes.func.isRequired,
+  setHoveredColumn: PropTypes.func.isRequired,
+  setDraggedColumn: PropTypes.func.isRequired,
+  hoveredColumnId: PropTypes.string,
+  draggedColumn: PropTypes.any,
+  hoveredColumnState: PropTypes.any
 };
 
 const mapStateToProps = state => {
   return {
     cards: state.cards,
     columns: state.columns,
-    tags: state.tags
+    boardColumns: state.board.columnIds,
+    tags: state.tags,
+    hoveredColumnId: state.interface.hoveredColumnId,
+    draggedColumn: state.interface.draggedColumn,
+    hoveredColumnState: state.interface.hoveredColumnState
   };
 };
 
@@ -93,6 +123,9 @@ const mapDispatchToProps = dispatch => {
     createCard: bindActionCreators(createCard, dispatch),
     createColumn: bindActionCreators(createColumn, dispatch),
     createTag: bindActionCreators(createTag, dispatch),
+    setHoveredColumn: bindActionCreators(setHoveredColumn, dispatch),
+    setDraggedColumn: bindActionCreators(setDraggedColumn, dispatch),
+    moveColumnInsideBoard: bindActionCreators(moveColumnInsideBoard, dispatch)
   };
 };
 
