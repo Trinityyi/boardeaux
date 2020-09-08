@@ -1,5 +1,8 @@
 import { v4 as uuid } from 'uuid';
 import { insertAt, moveTo } from '../utils';
+import { actions as activityLogActions } from './activityLog';
+
+const { logCardActivity } = activityLogActions;
 
 export const initialState = {};
 
@@ -69,13 +72,19 @@ export const actions = {
       id
     };
   },
-  addCardToColumn: (cardId, columnId, index = -1) => {
-    return {
+  addCardToColumn: (cardId, columnId, index = -1) => (dispatch, getState) => {
+    const { title: cardTitle } = getState().cards[cardId];
+    const { title: columnTitle } = getState().columns[columnId];
+    const actionVerb = index === -1 ? 'Added' : 'Moved';
+    dispatch({
       type: actionTypes.ADD_CARD_TO_COLUMN,
       cardId,
       columnId,
       index
-    };
+    });
+    dispatch(
+      logCardActivity(cardId, `${actionVerb} card ${cardTitle} to column ${columnTitle}.`)
+    );
   },
   removeCardFromColumn: (cardId, columnId) => {
     return {

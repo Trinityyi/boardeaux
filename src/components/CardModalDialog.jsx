@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -9,6 +9,7 @@ import TagInput from './TagInput';
 import combineClassNames from '@chalarangelo/combine-class-names';
 import { priorities } from '../shared';
 import { TagPropShape } from './Tag';
+import { haveSameContents, difference } from '../utils';
 
 const {
   setCardModalId,
@@ -19,7 +20,8 @@ const {
   removeTag,
   archiveCard,
   restoreCard,
-  deleteCard
+  deleteCard,
+  logCardActivity
 } = actions;
 
 const CardModalDialog = ({
@@ -34,10 +36,14 @@ const CardModalDialog = ({
   removeTag,
   archiveCard,
   restoreCard,
-  deleteCard
+  deleteCard,
+  logCardActivity
 }) => {
   const myRef = React.createRef();
   const isOpen = Boolean(id);
+
+  const [lastTitle, setLastTitle] = useState(null);
+  const [lastTags, setLastTags] = useState(null);
 
   return (
     <Modal
@@ -57,6 +63,12 @@ const CardModalDialog = ({
                 name="card-modal-title"
                 value={card.title}
                 onChange={value => setCardTitle(id, value)}
+                onEditableEnter={() => setLastTitle(card.title)}
+                onEditableExit={() => {
+                  if(lastTitle !== card.title)
+                    logCardActivity(id, `Renamed card from ${lastTitle} to ${card.title}.`);
+                  setLastTitle(card.title);
+                }}
                 cRef={myRef}
                 placeholder="Add a title"
               />
@@ -93,6 +105,22 @@ const CardModalDialog = ({
                   if (!card.tags.some(t => tag.id === t))
                     addTag(id, tag.id);
                 }}
+                onFocus={() => setLastTags(card.tags)}
+                onBlur={() => {
+                  if (!haveSameContents(lastTags, card.tags)) {
+                    const added = difference(card.tags, lastTags);
+                    const removed = difference(lastTags, card.tags);
+                    let message = [];
+                    if (added.length) message.push(`added tags ${added.map(tag => tags.find(t => tag === t.id).name).join(', ')}`);
+                    if (removed.length) message.push(`removed tags ${removed.map(tag => tags.find(t => tag === t.id).name).join(', ')}`);
+                    message = message.join(' and ');
+                    console.log(message);
+                    message = `${message[0].toUpperCase()}${message.slice(1)}`;
+                    message += ` to ${card.title}.`;
+                    logCardActivity(id, message);
+                  }
+                  setLastTags(card.tags);
+                }}
               />
             </div>
           </div>
@@ -119,7 +147,7 @@ const CardModalDialog = ({
             </label>
             {!card.archived ? (
               <button
-                className="btn icon icon-archive"
+                className="btn btn-archive icon icon-archive"
                 onClick={() => archiveCard(id)}
               >
               Archive
@@ -127,13 +155,13 @@ const CardModalDialog = ({
             ) : (
               <>
                 <button
-                  className="btn icon icon-rotate-ccw"
+                  className="btn btn-restore icon icon-rotate-ccw"
                   onClick={() => restoreCard(id)}
                 >
                 Restore
                 </button>
                 <button
-                  className="btn icon icon-trash"
+                  className="btn btn-delete icon icon-trash"
                   onClick={() => {
                     // eslint-disable-next-line no-restricted-globals
                     const sure = confirm('Are you sure?');
@@ -147,6 +175,32 @@ const CardModalDialog = ({
             }
           </div>
 
+          <div className="modal-card-section">
+            <label className="icon icon-list">
+              Activity log
+            </label>
+            <ul className="modal-card-activity-log">
+              { Boolean(card.activityLog && card.activityLog.length) &&
+                card.activityLog
+                  .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                  .map(({ text, timestamp }, i) => (
+                    <li key={`${i}${timestamp}`}>
+                      {text}
+                      <small>{new Date(timestamp).toLocaleDateString('en-US', {
+                        weekday: 'short',
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: false
+                      } )}</small>
+                    </li>
+                  ))
+              }
+            </ul>
+          </div>
           <div className="modal-card-section">
             <label className="icon icon-credit-card id-label">
               Card ID: {card.id}
@@ -173,7 +227,8 @@ CardModalDialog.propTypes = {
   removeTag: PropTypes.func.isRequired,
   archiveCard: PropTypes.func.isRequired,
   restoreCard: PropTypes.func.isRequired,
-  deleteCard: PropTypes.func.isRequired
+  deleteCard: PropTypes.func.isRequired,
+  logCardActivity: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -195,6 +250,7 @@ const mapDispatchToProps = dispatch => {
     archiveCard: bindActionCreators(archiveCard, dispatch),
     restoreCard: bindActionCreators(restoreCard, dispatch),
     deleteCard: bindActionCreators(deleteCard, dispatch),
+    logCardActivity: bindActionCreators(logCardActivity, dispatch)
   };
 };
 

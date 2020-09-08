@@ -49,3 +49,26 @@
     color: #141414;
   }
 }
+
+.btn-archive, .btn-restore, .btn-delete {
+  position: relative;
+  padding-left: 32px;
+  padding-right: 12px;
+  backdrop-filter: invert(4%);
+
+  &:before {
+    position: absolute;
+    left: 10px;
+    top: 6px;
+  }
+}
+
+.btn-delete {
+  background: #C62828;
+  color: #fff;
+  margin-left: 8px;
+
+  &:hover, &:focus {
+    background: #D32F2F;
+  }
+}
