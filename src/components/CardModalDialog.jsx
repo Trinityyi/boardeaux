@@ -119,7 +119,7 @@ const CardModalDialog = ({
             </label>
             {!card.archived ? (
               <button
-                className="btn icon icon-archive"
+                className="btn btn-archive icon icon-archive"
                 onClick={() => archiveCard(id)}
               >
               Archive
@@ -127,13 +127,13 @@ const CardModalDialog = ({
             ) : (
               <>
                 <button
-                  className="btn icon icon-rotate-ccw"
+                  className="btn btn-restore icon icon-rotate-ccw"
                   onClick={() => restoreCard(id)}
                 >
                 Restore
                 </button>
                 <button
-                  className="btn icon icon-trash"
+                  className="btn btn-delete icon icon-trash"
                   onClick={() => {
                     // eslint-disable-next-line no-restricted-globals
                     const sure = confirm('Are you sure?');
