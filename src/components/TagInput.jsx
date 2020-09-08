@@ -8,7 +8,9 @@ const TagInput = ({
   tags,
   suggestions,
   onDelete,
-  onAddition
+  onAddition,
+  onFocus = () => {},
+  onBlur = () => {}
 }) => {
   return (
     <ReactTags
@@ -23,6 +25,8 @@ const TagInput = ({
       minQueryLength={0}
       onDelete={onDelete}
       onAddition={onAddition}
+      onFocus={onFocus}
+      onBlur={onBlur}
       classNames={{
         root: 'tag-input-wrapper',
         rootFocused: 'is-focused',
@@ -48,7 +52,9 @@ TagInput.propTypes = {
   tags: PropTypes.arrayOf(TagPropShape),
   suggestions: PropTypes.arrayOf(TagPropShape),
   onDelete: PropTypes.func.isRequired,
-  onAddition: PropTypes.func.isRequired
+  onAddition: PropTypes.func.isRequired,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func
 };
 
 export default TagInput;
