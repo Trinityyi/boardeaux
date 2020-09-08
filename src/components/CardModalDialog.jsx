@@ -148,6 +148,34 @@ const CardModalDialog = ({
           </div>
 
           <div className="modal-card-section">
+            <label className="icon icon-list">
+              Activity log
+            </label>
+            <ul className="modal-card-activity-log">
+              { Boolean(card.activityLog && card.activityLog.length) &&
+                card.activityLog
+                  .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                  .map(({ text, timestamp }, i) => (
+                    <li key={`${i}${timestamp}`}>
+                      {text}
+                      <small>{new Date(timestamp).toLocaleDateString('en-US', {
+                        weekday: 'short',
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: false
+                      } )}</small>
+                    </li>
+                  ))
+              }
+            </ul>
+          </div>
+
+
+          <div className="modal-card-section">
             <label className="icon icon-credit-card id-label">
               Card ID: {card.id}
             </label>
