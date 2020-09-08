@@ -1,9 +1,15 @@
 import { v4 as uuid } from 'uuid';
 import { actions as columnsActions } from './columns';
 import { actions as interfaceActions } from './interface';
+import {
+  actions as activityLogActions,
+  actionTypes as activityLogActionTypes
+} from './activityLog';
+import { priorities } from '../shared';
 
 const { addCardToColumn } = columnsActions;
 const { setCardModalId } = interfaceActions;
+const { logCardActivity } = activityLogActions;
 
 export const initialState = {};
 
@@ -16,7 +22,7 @@ export const actionTypes = {
   REMOVE_TAG: 'REMOVE_TAG',
   ARCHIVE_CARD: 'ARCHIVE_CARD',
   DELETE_CARD: 'DELETE_CARD',
-  RESTORE_CARD: 'RESTORE_CARD'
+  RESTORE_CARD: 'RESTORE_CARD',
 };
 
 const reducer = (state = initialState, action) => {
@@ -91,10 +97,22 @@ const reducer = (state = initialState, action) => {
         archived: false
       }
     };
+  case activityLogActionTypes.LOG_CARD_ACTIVITY:
+    return {
+      ...state,
+      [action.id]: {
+        ...state[action.id],
+        activityLog: [
+          ...state[action.id].activityLog,
+          action.message
+        ]
+      }
+    };
   default:
     return state;
   }
 };
+
 
 export const actions = {
   createCard: (data, columnId) => dispatch => {
@@ -108,7 +126,8 @@ export const actions = {
         description: description ? description : '',
         priority: 2,
         tags: tags ? tags : [],
-        archived: false
+        archived: false,
+        activityLog: []
       },
       id
     });
@@ -128,12 +147,14 @@ export const actions = {
       id
     };
   },
-  setCardPriority: (id, priority) => {
-    return {
+  setCardPriority: (id, priority) => (dispatch, getState) => {
+    const { title, priority: lastPriority } = getState().cards[id];
+    dispatch(logCardActivity(id, `Changed priority of card ${title} from ${priorities[lastPriority]} to ${priorities[priority]}.`));
+    dispatch({
       type: actionTypes.SET_PRIORITY,
       priority,
       id
-    };
+    });
   },
   addTag: (id, tag) => {
     return {
@@ -149,11 +170,13 @@ export const actions = {
       id
     };
   },
-  archiveCard: id => {
-    return {
+  archiveCard: id => (dispatch, getState) => {
+    const { title } = getState().cards[id];
+    dispatch(logCardActivity(id, `Archived card ${title}.`));
+    dispatch({
       type: actionTypes.ARCHIVE_CARD,
       id
-    };
+    });
   },
   deleteCard: id => dispatch => {
     dispatch(setCardModalId(null));
@@ -162,12 +185,15 @@ export const actions = {
       id
     };
   },
-  restoreCard: id => {
-    return {
+  restoreCard: id => (dispatch, getState) => {
+    const { title } = getState().cards[id];
+    dispatch(logCardActivity(id, `Restored card ${title}.`));
+    dispatch({
       type: actionTypes.RESTORE_CARD,
       id
-    };
-  }
+    });
+  },
+  logCardActivity
 };
 
 export default reducer;
