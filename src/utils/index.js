@@ -65,3 +65,24 @@ export const randomHexColorCode = () => {
   let n = (Math.random() * 0xfffff * 1000000).toString(16);
   return '#' + n.slice(0, 6);
 };
+
+/**
+ * Returns true if two arrays contain the same elements regardless of order, false otherwise.
+ * @param {Array} a - An array of values
+ * @param {Array} b - An array of values
+ */
+export const haveSameContents = (a, b) => {
+  for (const v of new Set([...a, ...b]))
+    if (a.filter(e => e === v).length !== b.filter(e => e === v).length) return false;
+  return true;
+};
+
+/**
+ * Returns the difference between two arrays
+ * @param {Array} a - An array of values
+ * @param {Array} b - An array of values
+ */
+export const difference = (a, b) => {
+  const s = new Set(b);
+  return a.filter(x => !s.has(x));
+};
