@@ -21,15 +21,23 @@ const EditableText = ({
   isDefaultEditable = false,
   isMultiline = false,
   isMarkdown = false,
-  remainEditableWhileEmpty = false
+  remainEditableWhileEmpty = false,
+  onEditableEnter = () => {},
+  onEditableExit = () => {}
 }) => {
   const [isEditable, setIsEditable] = useState(isDefaultEditable);
   const clickRef = useRef();
   useClickOutside(clickRef, () => {
-    if (isEditable && (!remainEditableWhileEmpty || value.trim().length)) setIsEditable(false);
+    if (isEditable && (!remainEditableWhileEmpty || value.trim().length)) {
+      setIsEditable(false);
+      onEditableExit();
+    }
   });
   useClickSelector(clickRef, `label[for="${id}"]`, () => {
-    if(!isEditable) setIsEditable(true);
+    if(!isEditable) {
+      setIsEditable(true);
+      onEditableEnter();
+    }
   });
 
   const EditableField = isMultiline ? 'textarea' : 'input';
@@ -47,7 +55,10 @@ const EditableText = ({
           />
         ) : (
           <span
-            onClick={() => setIsEditable(true)}
+            onClick={() => {
+              setIsEditable(true);
+              onEditableEnter();
+            }}
             dangerouslySetInnerHTML={{
               __html: isMarkdown ? parseMarkdown(value) : value
             }}
