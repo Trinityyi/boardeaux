@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import actions from '../store/actions';
 import Column from './Column';
+import AddButton from './AddButton';
 
 const {
   createCard,
@@ -87,6 +88,16 @@ const MainArea = ({
             handleDrop={moveColumnInsideBoard}
           />
         ))}
+        <AddButton
+          id="btn-add-column"
+          name="btn-add-column"
+          onSubmit={columnTitle => createColumn({ title: columnTitle })}
+          buttonText="Add a column"
+          submitText="Add Column"
+          wrapperClassName="column-wrapper add-column-wrapper"
+          buttonClassName="btn-add-column"
+          inputClassName="input-add-column"
+        />
       </div>
     </main>
   );
