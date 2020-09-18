@@ -3,6 +3,8 @@ import renderDndConnected from '../test_utils/renderDndConnected';
 import Column from '../../components/Column';
 import { cards } from '../fixtures/cards';
 
+const noop = () => { };
+
 describe('<Column/>', () => {
   let wrapper, getByText;
 
@@ -13,6 +15,9 @@ describe('<Column/>', () => {
         cards={cards}
         title='Cool things'
         tags={{}}
+        setIsHovered={noop}
+        setDraggedColumn={noop}
+        handleDrop={noop}
       />
     );
     wrapper = utils.container;

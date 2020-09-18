@@ -18,3 +18,30 @@ main {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
 }
+
+.add-column-wrapper {
+  .btn-add-column {
+    margin: 0 16px;
+    width: 100%;
+    padding: 14px 12px;
+    position: relative;
+    background: rgba(255, 255, 255, 0.53);
+
+    &:before {
+      position: absolute;
+      top: 16px;
+      left: 25%;
+      font-size: 20px;
+    }
+  }
+
+  .input-add-column {
+    margin: 0 16px;
+    width: 100%;
+    padding: 14px 12px;
+  }
+
+  .btn-confirm {
+    margin-left: 16px;
+  }
+}
