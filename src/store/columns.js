@@ -12,7 +12,8 @@ export const actionTypes = {
   CREATE_COLUMN: 'CREATE_COLUMN',
   ADD_CARD_TO_COLUMN: 'ADD_CARD_TO_COLUMN',
   REMOVE_CARD_FROM_COLUMN: 'REMOVE_CARD_FROM_COLUMN',
-  MOVE_CARD_INSIDE_COLUMN: 'MOVE_CARD_INSIDE_COLUMN'
+  MOVE_CARD_INSIDE_COLUMN: 'MOVE_CARD_INSIDE_COLUMN',
+  SET_COLUMN_TITLE: 'SET_COLUMN_NAME'
 };
 
 const reducer = (state = initialState, action) => {
@@ -56,6 +57,14 @@ const reducer = (state = initialState, action) => {
         ...state[action.columnId],
         cardIds:
           state[action.columnId].cardIds.filter(id => id !== action.cardId)
+      }
+    };
+  case actionTypes.SET_COLUMN_TITLE:
+    return {
+      ...state,
+      [action.columnId]: {
+        ...state[action.columnId],
+        title: action.title
       }
     };
   default:
@@ -103,6 +112,13 @@ export const actions = {
       cardId,
       columnId,
       index
+    };
+  },
+  setColumnTitle: (columnId, title) => {
+    return {
+      type: actionTypes.SET_COLUMN_TITLE,
+      columnId,
+      title
     };
   }
 };
