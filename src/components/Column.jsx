@@ -5,6 +5,7 @@ import { useDrop, useDrag } from 'react-dnd';
 import PropTypes from 'prop-types';
 import Card from './Card';
 import AddButton from './AddButton';
+import EditableText from './EditableText';
 import actions from '../store/actions';
 import combineClassNames from '@chalarangelo/combine-class-names';
 
@@ -13,7 +14,8 @@ const {
   addCardToColumn,
   moveCardInsideColumn,
   setHoveredCard,
-  setDraggedCard
+  setDraggedCard,
+  setColumnTitle
 } = actions;
 
 /**
@@ -38,7 +40,8 @@ const Column = ({
   setIsHovered,
   isDragging = false,
   setDraggedColumn,
-  handleDrop
+  handleDrop,
+  setColumnTitle
 }) => {
   const ref = useRef(null);
 
@@ -109,7 +112,16 @@ const Column = ({
       }
       <div className="column">
         <div className="column-title">
-          <h3>{title}</h3>
+          <h3>
+            <EditableText
+              id={`column-name-${id}`}
+              name={`column-name-${id}`}
+              value={title}
+              onChange={val => {
+                setColumnTitle(id, val);
+              }}
+            />
+          </h3>
           <button className="btn btn-column-menu icon icon-more-horizontal" />
         </div>
         <ul
@@ -178,7 +190,8 @@ Column.propTypes = {
   addCardToColumn: PropTypes.func.isRequired,
   setHoveredCard: PropTypes.func.isRequired,
   setDraggedCard: PropTypes.func.isRequired,
-  moveCardInsideColumn: PropTypes.func.isRequired
+  moveCardInsideColumn: PropTypes.func.isRequired,
+  setColumnTitle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -195,7 +208,8 @@ const mapDispatchToProps = dispatch => {
     addCardToColumn: bindActionCreators(addCardToColumn, dispatch),
     setHoveredCard: bindActionCreators(setHoveredCard, dispatch),
     setDraggedCard: bindActionCreators(setDraggedCard, dispatch),
-    moveCardInsideColumn: bindActionCreators(moveCardInsideColumn, dispatch)
+    moveCardInsideColumn: bindActionCreators(moveCardInsideColumn, dispatch),
+    setColumnTitle: bindActionCreators(setColumnTitle, dispatch)
   };
 };
 

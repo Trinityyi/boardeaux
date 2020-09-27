@@ -8,6 +8,7 @@
 
 // Component styles
 @import './header';
+@import './search';
 @import './main_area';
 @import './column';
 @import './card';
@@ -15,3 +16,4 @@
 @import './tag';
 @import './menu';
 @import './markdown';
+@import '../../node_modules/react-datepicker/dist/react-datepicker.css';

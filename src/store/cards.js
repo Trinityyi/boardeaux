@@ -23,6 +23,7 @@ export const actionTypes = {
   ARCHIVE_CARD: 'ARCHIVE_CARD',
   DELETE_CARD: 'DELETE_CARD',
   RESTORE_CARD: 'RESTORE_CARD',
+  SET_CARD_DUE_DATE: 'SET_CARD_DUE_DATE'
 };
 
 const reducer = (state = initialState, action) => {
@@ -97,6 +98,14 @@ const reducer = (state = initialState, action) => {
         archived: false
       }
     };
+  case actionTypes.SET_CARD_DUE_DATE:
+    return {
+      ...state,
+      [action.id]: {
+        ...state[action.id],
+        dueDate: action.dueDate
+      }
+    };
   case activityLogActionTypes.LOG_CARD_ACTIVITY:
     return {
       ...state,
@@ -112,7 +121,6 @@ const reducer = (state = initialState, action) => {
     return state;
   }
 };
-
 
 export const actions = {
   createCard: (data, columnId) => dispatch => {
@@ -149,7 +157,8 @@ export const actions = {
   },
   setCardPriority: (id, priority) => (dispatch, getState) => {
     const { title, priority: lastPriority } = getState().cards[id];
-    dispatch(logCardActivity(id, `Changed priority of card ${title} from ${priorities[lastPriority]} to ${priorities[priority]}.`));
+    const user = getState().users['user'];
+    dispatch(logCardActivity(id, `${user.name} changed priority of card ${title} from ${priorities[lastPriority]} to ${priorities[priority]}.`));
     dispatch({
       type: actionTypes.SET_PRIORITY,
       priority,
@@ -172,7 +181,8 @@ export const actions = {
   },
   archiveCard: id => (dispatch, getState) => {
     const { title } = getState().cards[id];
-    dispatch(logCardActivity(id, `Archived card ${title}.`));
+    const user = getState().users['user'];
+    dispatch(logCardActivity(id, `${user.name} archived card ${title}.`));
     dispatch({
       type: actionTypes.ARCHIVE_CARD,
       id
@@ -185,9 +195,23 @@ export const actions = {
       id
     };
   },
+  setCardDueDate: (id, dueDate) => (dispatch, getState) => {
+    const { title } = getState().cards[id];
+    const user = getState().users['user'];
+    dispatch(logCardActivity(id, dueDate
+      ? `${user.name} set due date for ${title} to ${dueDate.toLocaleDateString('en-GB')}.`
+      : `${user.name} cleared due date for ${title}.`
+    ));
+    dispatch({
+      type: actionTypes.SET_CARD_DUE_DATE,
+      id,
+      dueDate
+    });
+  },
   restoreCard: id => (dispatch, getState) => {
     const { title } = getState().cards[id];
-    dispatch(logCardActivity(id, `Restored card ${title}.`));
+    const user = getState().users['user'];
+    dispatch(logCardActivity(id, `${user.name} restored card ${title}.`));
     dispatch({
       type: actionTypes.RESTORE_CARD,
       id

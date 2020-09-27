@@ -6,6 +6,7 @@ import Modal from './Modal';
 import EditableText from './EditableText';
 import actions from '../store/actions';
 import TagInput from './TagInput';
+import DatePicker from 'react-datepicker';
 import combineClassNames from '@chalarangelo/combine-class-names';
 import { priorities } from '../shared';
 import { TagPropShape } from './Tag';
@@ -21,6 +22,7 @@ const {
   archiveCard,
   restoreCard,
   deleteCard,
+  setCardDueDate,
   logCardActivity
 } = actions;
 
@@ -37,7 +39,9 @@ const CardModalDialog = ({
   archiveCard,
   restoreCard,
   deleteCard,
-  logCardActivity
+  logCardActivity,
+  user,
+  setCardDueDate
 }) => {
   const myRef = React.createRef();
   const isOpen = Boolean(id);
@@ -66,7 +70,7 @@ const CardModalDialog = ({
                 onEditableEnter={() => setLastTitle(card.title)}
                 onEditableExit={() => {
                   if(lastTitle !== card.title)
-                    logCardActivity(id, `Renamed card from ${lastTitle} to ${card.title}.`);
+                    logCardActivity(id, `${user.name} renamed card from ${lastTitle} to ${card.title}.`);
                   setLastTitle(card.title);
                 }}
                 cRef={myRef}
@@ -113,8 +117,8 @@ const CardModalDialog = ({
                     let message = [];
                     if (added.length) message.push(`added tags ${added.map(tag => tags.find(t => tag === t.id).name).join(', ')}`);
                     if (removed.length) message.push(`removed tags ${removed.map(tag => tags.find(t => tag === t.id).name).join(', ')}`);
+                    message[0] = `${user.name} ${message[0]}`;
                     message = message.join(' and ');
-                    console.log(message);
                     message = `${message[0].toUpperCase()}${message.slice(1)}`;
                     message += ` to ${card.title}.`;
                     logCardActivity(id, message);
@@ -140,7 +144,20 @@ const CardModalDialog = ({
                 ))}
             </select>
           </div>
-
+          <div className="modal-card-section">
+            <label htmlFor="card-modal-due-date" className="for-editable icon icon-calendar">
+            Due date
+            </label>
+            <DatePicker
+              dateFormat="dd/MM/yyyy"
+              selected={card.dueDate ? new Date(card.dueDate) : null}
+              isClearable
+              onChange={date => {
+                setCardDueDate(id, date);
+              }}
+              className="card-modal-calendar-input"
+            />
+          </div>
           <div className="modal-card-section">
             <label className="for-editable icon icon-briefcase">
             Actions
@@ -228,14 +245,16 @@ CardModalDialog.propTypes = {
   archiveCard: PropTypes.func.isRequired,
   restoreCard: PropTypes.func.isRequired,
   deleteCard: PropTypes.func.isRequired,
-  logCardActivity: PropTypes.func.isRequired
+  logCardActivity: PropTypes.func.isRequired,
+  user: PropTypes.shape({})
 };
 
 const mapStateToProps = state => {
   return {
     id: state.interface.cardModalId,
     card: state.cards[state.interface.cardModalId],
-    tags: Object.keys(state.tags).map(key => state.tags[key])
+    tags: Object.keys(state.tags).map(key => state.tags[key]),
+    user: state.users['user']
   };
 };
 
@@ -250,7 +269,8 @@ const mapDispatchToProps = dispatch => {
     archiveCard: bindActionCreators(archiveCard, dispatch),
     restoreCard: bindActionCreators(restoreCard, dispatch),
     deleteCard: bindActionCreators(deleteCard, dispatch),
-    logCardActivity: bindActionCreators(logCardActivity, dispatch)
+    logCardActivity: bindActionCreators(logCardActivity, dispatch),
+    setCardDueDate: bindActionCreators(setCardDueDate, dispatch)
   };
 };
 

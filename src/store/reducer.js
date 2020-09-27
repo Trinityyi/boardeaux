@@ -7,6 +7,7 @@ import boardReducer, { initialState as boardInitialState } from './board';
 import cardsReducer, { initialState as cardsInitialState } from './cards';
 import columnsReducer, { initialState as columnsInitialState } from './columns';
 import tagsReducer, { initialState as tagsInitialState } from './tags';
+import usersReducer, { initialState as usersInitialState } from './users';
 import interfaceReducer, { initialState as interfaceInitialState } from './interface';
 
 export const idbStore = createIdbStorage({ name: 'boardeaux-store', storeName: 'boardeaux' });
@@ -16,14 +17,15 @@ const rootReducer = combineReducers({
   cards: cardsReducer,
   columns: columnsReducer,
   interface: interfaceReducer,
-  tags: tagsReducer
+  tags: tagsReducer,
+  users: usersReducer
 });
 
 export const rootPersistConfig = {
   key: 'boardeaux',
   storage: idbStore,
   stateReconciler: autoMergeLevel2,
-  whitelist: ['board', 'cards', 'columns', 'tags']
+  whitelist: ['board', 'cards', 'columns', 'tags', 'users']
 };
 
 export const initialState = {
@@ -31,7 +33,8 @@ export const initialState = {
   cards: cardsInitialState,
   columns: columnsInitialState,
   interface: interfaceInitialState,
-  tags: tagsInitialState
+  tags: tagsInitialState,
+  users: usersInitialState
 };
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
