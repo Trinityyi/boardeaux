@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import EditableText from './EditableText';
+import Search from './Search';
 import actions from '../store/actions';
 import logo from '../assets/logo.png';
 
@@ -27,10 +28,7 @@ const Header = ({
       </h2>
       <div className="controls">
         <i className="icon icon-search" />
-        <input
-          type="search"
-          placeholder="Search..."
-        />
+        <Search />
         <button
           className="btn btn-menu icon icon-more-horizontal"
           onClick={() => setMainMenuOpen(true)}
