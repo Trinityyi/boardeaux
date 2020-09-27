@@ -23,6 +23,7 @@ export const actionTypes = {
   ARCHIVE_CARD: 'ARCHIVE_CARD',
   DELETE_CARD: 'DELETE_CARD',
   RESTORE_CARD: 'RESTORE_CARD',
+  SET_CARD_DUE_DATE: 'SET_CARD_DUE_DATE'
 };
 
 const reducer = (state = initialState, action) => {
@@ -97,6 +98,14 @@ const reducer = (state = initialState, action) => {
         archived: false
       }
     };
+  case actionTypes.SET_CARD_DUE_DATE:
+    return {
+      ...state,
+      [action.id]: {
+        ...state[action.id],
+        dueDate: action.dueDate
+      }
+    };
   case activityLogActionTypes.LOG_CARD_ACTIVITY:
     return {
       ...state,
@@ -112,7 +121,6 @@ const reducer = (state = initialState, action) => {
     return state;
   }
 };
-
 
 export const actions = {
   createCard: (data, columnId) => dispatch => {
@@ -186,6 +194,19 @@ export const actions = {
       type: actionTypes.DELETE_CARD,
       id
     };
+  },
+  setCardDueDate: (id, dueDate) => (dispatch, getState) => {
+    const { title } = getState().cards[id];
+    const user = getState().users['user'];
+    dispatch(logCardActivity(id, dueDate
+      ? `${user.name} set due date for ${title} to ${dueDate.toLocaleDateString('en-GB')}.`
+      : `${user.name} cleared due date for ${title}.`
+    ));
+    dispatch({
+      type: actionTypes.SET_CARD_DUE_DATE,
+      id,
+      dueDate
+    });
   },
   restoreCard: id => (dispatch, getState) => {
     const { title } = getState().cards[id];
