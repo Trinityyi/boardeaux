@@ -15,7 +15,8 @@ const Card = ({
     id,
     title,
     priority,
-    tags
+    tags,
+    dueDate
   },
   columnId,
   index,
@@ -78,6 +79,14 @@ const Card = ({
 
   drag(drop(ref));
 
+  let dueDateTag = { id: 'due-date-tag' };
+
+  if (dueDate) {
+    dueDateTag.name = new Date(dueDate).toLocaleDateString('en-GB');
+    const dueDateDiff = new Date() - new Date(dueDate);
+    dueDateTag.backgroundColor = (dueDateDiff / 86400000 > 0) ? '#D50000' : (dueDateDiff / 86400000 >= -1 ) ? '#FF6D00' : null;
+  };
+
   return (
     <li className="card-wrapper" ref={ref}>
       {
@@ -93,7 +102,10 @@ const Card = ({
       >
         {title}
         <div className="card-tag-wrapper">
-          {tags.map(tag => <Tag tag={tag} key={tag.id}/>)}
+          {[
+            ...(dueDate ? [dueDateTag] : []),
+            ...tags
+          ].map(tag => <Tag tag={tag} key={tag.id}/>)}
         </div>
       </div>
       {
