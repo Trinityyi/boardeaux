@@ -3,15 +3,18 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import TagPanel from './TagPanel';
+import EditableText from './EditableText';
 import combineClassNames from '@chalarangelo/combine-class-names';
 import actions from '../store/actions';
 import { exportToJSON, importFromJSON } from '../storage';
 
-const { setMainMenuOpen } = actions;
+const { setMainMenuOpen, setUserName } = actions;
 
 const MenuPanel = ({
   isOpen,
-  setMainMenuOpen
+  setMainMenuOpen,
+  user,
+  setUserName
 }) => {
   return (
     <div className={combineClassNames`main-menu-wrapper ${isOpen ? '' : 'hidden'}`}>
@@ -21,6 +24,15 @@ const MenuPanel = ({
           onClick={() => setMainMenuOpen(false)}
         />
         <h3 className="main-menu-title">Menu</h3>
+        <div className="main-menu-edit-user">
+          <h4>User</h4>
+          <EditableText
+            id="user-name-edit"
+            name="user-name-edit"
+            value={user.name}
+            onChange={value => setUserName('user', value)}
+          />
+        </div>
         <TagPanel />
         <h4>Actions</h4>
         <button
@@ -49,18 +61,21 @@ const MenuPanel = ({
 
 MenuPanel.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  setMainMenuOpen: PropTypes.func.isRequired
+  setMainMenuOpen: PropTypes.func.isRequired,
+  user: PropTypes.shape({}).isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    isOpen: state.interface.isMainMenuOpen
+    isOpen: state.interface.isMainMenuOpen,
+    user: state.users['user']
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setMainMenuOpen: bindActionCreators(setMainMenuOpen, dispatch)
+    setMainMenuOpen: bindActionCreators(setMainMenuOpen, dispatch),
+    setUserName: bindActionCreators(setUserName, dispatch)
   };
 };
 
