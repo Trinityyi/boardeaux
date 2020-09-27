@@ -149,7 +149,8 @@ export const actions = {
   },
   setCardPriority: (id, priority) => (dispatch, getState) => {
     const { title, priority: lastPriority } = getState().cards[id];
-    dispatch(logCardActivity(id, `Changed priority of card ${title} from ${priorities[lastPriority]} to ${priorities[priority]}.`));
+    const user = getState().users['user'];
+    dispatch(logCardActivity(id, `${user.name} changed priority of card ${title} from ${priorities[lastPriority]} to ${priorities[priority]}.`));
     dispatch({
       type: actionTypes.SET_PRIORITY,
       priority,
@@ -172,7 +173,8 @@ export const actions = {
   },
   archiveCard: id => (dispatch, getState) => {
     const { title } = getState().cards[id];
-    dispatch(logCardActivity(id, `Archived card ${title}.`));
+    const user = getState().users['user'];
+    dispatch(logCardActivity(id, `${user.name} archived card ${title}.`));
     dispatch({
       type: actionTypes.ARCHIVE_CARD,
       id
@@ -187,7 +189,8 @@ export const actions = {
   },
   restoreCard: id => (dispatch, getState) => {
     const { title } = getState().cards[id];
-    dispatch(logCardActivity(id, `Restored card ${title}.`));
+    const user = getState().users['user'];
+    dispatch(logCardActivity(id, `${user.name} restored card ${title}.`));
     dispatch({
       type: actionTypes.RESTORE_CARD,
       id

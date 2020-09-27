@@ -37,7 +37,8 @@ const CardModalDialog = ({
   archiveCard,
   restoreCard,
   deleteCard,
-  logCardActivity
+  logCardActivity,
+  user
 }) => {
   const myRef = React.createRef();
   const isOpen = Boolean(id);
@@ -66,7 +67,7 @@ const CardModalDialog = ({
                 onEditableEnter={() => setLastTitle(card.title)}
                 onEditableExit={() => {
                   if(lastTitle !== card.title)
-                    logCardActivity(id, `Renamed card from ${lastTitle} to ${card.title}.`);
+                    logCardActivity(id, `${user.name} renamed card from ${lastTitle} to ${card.title}.`);
                   setLastTitle(card.title);
                 }}
                 cRef={myRef}
@@ -113,8 +114,8 @@ const CardModalDialog = ({
                     let message = [];
                     if (added.length) message.push(`added tags ${added.map(tag => tags.find(t => tag === t.id).name).join(', ')}`);
                     if (removed.length) message.push(`removed tags ${removed.map(tag => tags.find(t => tag === t.id).name).join(', ')}`);
+                    message[0] = `${user.name} ${message[0]}`;
                     message = message.join(' and ');
-                    console.log(message);
                     message = `${message[0].toUpperCase()}${message.slice(1)}`;
                     message += ` to ${card.title}.`;
                     logCardActivity(id, message);
@@ -228,14 +229,16 @@ CardModalDialog.propTypes = {
   archiveCard: PropTypes.func.isRequired,
   restoreCard: PropTypes.func.isRequired,
   deleteCard: PropTypes.func.isRequired,
-  logCardActivity: PropTypes.func.isRequired
+  logCardActivity: PropTypes.func.isRequired,
+  user: PropTypes.shape({})
 };
 
 const mapStateToProps = state => {
   return {
     id: state.interface.cardModalId,
     card: state.cards[state.interface.cardModalId],
-    tags: Object.keys(state.tags).map(key => state.tags[key])
+    tags: Object.keys(state.tags).map(key => state.tags[key]),
+    user: state.users['user']
   };
 };
 

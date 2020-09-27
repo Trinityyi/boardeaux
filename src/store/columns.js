@@ -88,7 +88,8 @@ export const actions = {
   addCardToColumn: (cardId, columnId, index = -1) => (dispatch, getState) => {
     const { title: cardTitle } = getState().cards[cardId];
     const { title: columnTitle } = getState().columns[columnId];
-    const actionVerb = index === -1 ? 'Added' : 'Moved';
+    const actionVerb = index === -1 ? 'added' : 'moved';
+    const user = getState().users['user'];
     dispatch({
       type: actionTypes.ADD_CARD_TO_COLUMN,
       cardId,
@@ -96,7 +97,7 @@ export const actions = {
       index
     });
     dispatch(
-      logCardActivity(cardId, `${actionVerb} card ${cardTitle} to column ${columnTitle}.`)
+      logCardActivity(cardId, `${user.name} ${actionVerb} card ${cardTitle} to column ${columnTitle}.`)
     );
   },
   removeCardFromColumn: (cardId, columnId) => {
