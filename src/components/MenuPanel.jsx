@@ -21,6 +21,8 @@ const MenuPanel = ({
           onClick={() => setMainMenuOpen(false)}
         />
         <h3 className="main-menu-title">Menu</h3>
+        <TagPanel />
+        <h4>Actions</h4>
         <button
           className="main-menu-btn btn btn-save icon icon-download"
           onClick={() => exportToJSON()}
@@ -40,7 +42,6 @@ const MenuPanel = ({
         >
           Load from JSON
         </button>
-        <TagPanel />
       </div>
     </div>
   );
